@@ -1,0 +1,43 @@
+<!Doctype html>
+<html>
+<head>
+	<style type="text/css">
+		body {
+			min-height: 100vh;
+			margin: 0;
+			padding: 10px;
+		}
+
+		* {
+			-webkit-box-sizing: border-box;
+			   -moz-box-sizing: border-box;
+			        box-sizing: border-box;
+		}
+
+		.img_container {
+			width: 100%;
+			height: 35rem;
+			overflow: hidden;
+
+			margin: 10px 0;
+			border: 5px solid red;
+		}
+
+		.inside-wrapper-div {
+			width: 100%;
+			height: 35rem;
+		}
+
+		.cover {
+			object-fit: cover;
+		}
+	</style>
+	<script src="polyfill.object-fit.js"></script>
+</head>
+<body>
+	<h1><code>object-fit: cover;</code></h1>
+	<div class="img_container">
+		<img id="one" class="inside-wrapper-div cover" src="image.jpg">
+	</div>
+</body>
+</html>
