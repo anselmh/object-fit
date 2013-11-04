@@ -30,64 +30,84 @@
 	
 	// Test native support
 	var testObjectFitSupport = function() {
-		
-		// A function to get computed style values of an element
-		var getStyleValue = function(element, property) {
-			window.getComputedStyle(element).getPropertyValue(property);
-		}
 
-		var testElem = document.createElement('modernizr');
-		testElem.id = 'testObjectFitSupport';
-		testElem.style.cssText = 'object-fit: contain; display: none !important;';
+		var testElem1 = document.createElement('modernizr');
+		testElem1.id = 'testObjectFitSupportContain';
+		testElem1.style.cssText = 'object-fit: contain; display: none !important;';
 		
-		document.getElementsByTagName("body")[0].appendChild(testElem);
+		var testElem2 = document.createElement('modernizr');
+		testElem2.id = 'testObjectFitSupportCover';
+		testElem2.style.cssText = 'object-fit: cover; display: none !important;';
 		
-		var createdElem = document.querySelector('#testObjectFitSupport');	
-		var objFitValue = window.getComputedStyle(createdElem).getPropertyValue('object-fit');
+		document.getElementsByTagName("body")[0].appendChild(testElem1);
+		document.getElementsByTagName("body")[0].appendChild(testElem2);
+		
+		var createdElem1 = document.querySelector('#testObjectFitSupportContain');
+		var createdElem2 = document.querySelector('#testObjectFitSupportCover');
+		
+		var objFitValue1 = window.getComputedStyle(createdElem1).getPropertyValue('object-fit');
+		var objFitValue2 = window.getComputedStyle(createdElem2).getPropertyValue('object-fit');
 	
-		if (!objFitValue) {
+		if (!objFitValue1 || !objFitValue2) {
+			// No support for object-fit
 			var htmlElem = document.querySelector('html');
 			htmlElem.className = htmlElem.className + ' no-objectfit';
+			
+			return false;
+		}
+		else if (objFitValue1 && !objFitValue2) {
+			// Support for contain but not cover
+			var htmlElem = document.querySelector('html');
+			htmlElem.className = htmlElem.className + ' objectfit-contain';
+			
+			return true;
+		}
+		else if (!objFitValue1 && objFitValue2) {
+			// Support for cover but not contain
+			var htmlElem = document.querySelector('html');
+			htmlElem.className = htmlElem.className + ' objectfit-cover';
+			
+			return true;
 		}
 		else {
+			// Full support for contain and cover
 			var htmlElem = document.querySelector('html');
 			htmlElem.className = htmlElem.className + ' objectfit';
+			
+			// Remove helper element from DOM
+			// @TODO: Avoid doubled code here
+			if (createdElem1) {
+				createdElem1.parentNode.removeChild(createdElem1);
+			}
+			if (createdElem2) {
+				createdElem2.parentNode.removeChild(createdElem2);
+			}
+			
+			return true;
 		}
 
 		// Remove helper element from DOM
-		if (createdElem) {
-			createdElem.parentNode.removeChild(createdElem);
+		// @TODO: Avoid doubled code here
+		if (createdElem1) {
+			createdElem1.parentNode.removeChild(createdElem1);
+		}
+		if (createdElem2) {
+			createdElem2.parentNode.removeChild(createdElem2);
 		}
 		
 		return false;
 
 	};
 	
-	// Apply the CSS (native or polyfilled)
-	var applyObjectFit = function() {
-		// default: contain, available: contain|cover
-		var objectFitType =  'contain';
-		var supportsObjectFit = testObjectFitSupport();
-		
-		// If not supported apply polyfill else CSS is taken w/ html class inheritation
-		// if (!supportsObjectFit) {
-
-		// 	objectFitFill(this, objectFitType);
-
-		// 	console.log('objectfit not supported, executing polyfill');
-		// }
-
-	};
-	
 	// Contains the real polyfill
 	var objectFitFill = function(element, parameters) {
-		
-		console.log(element + ' | ' + parameters);
-		
+				
 		// @TODO: Refactor this poor code
 		var type = typeof(parameters) === 'string' ? parameters : parameters.type,
 			hideOverflow = parameters.hideOverflow === undefined ? true : parameters.hideOverflow;
-			
+		
+		element = document.querySelector(element);
+		
 		// Get parent computed Style
 		var parent = element.parentNode,
 			parentStyle = window.getComputedStyle(parent);
@@ -97,6 +117,12 @@
 			var displayType = parentStyle.getPropertyValue('display');
 			
 			if (displayType == 'block' || displayType == 'inline-block' || displayType == '-webkit-box' && parentStyle.getPropertyValue('width') > 0) {
+				
+				var parentWidth = parentStyle.getPropertyValue('width'),
+					parentHeight = parentStyle.getPropertyValue('height'),
+					parentRatio = parseInt(parentWidth, 10) / parseInt(parentHeight, 10);
+				console.log(parentWidth + ' | ' + parentHeight + ' | ' + parentRatio);
+				
 				return { 
 					obj: parentStyle, 
 					width: parentStyle.getPropertyValue('width'), 
@@ -109,75 +135,66 @@
 			}
 		}
 
-		var _this = document.querySelector(element);
-		var ratio = _this.data('ratio'),
-			parent = findParentRatio(_this), // The parent element may not have any width or height, so find one that does
+		var _this = element;
+		// var ratio = _this.data('ratio'),
+		var	parent = findParentRatio(_this), // The parent element may not have any width or height, so find one that does
 			picRealWidth,
 			picRealHeight;
+		
+		var image = document.querySelector('img');
 
-		var image = document.querySelector('<img>') // Make in memory copy of image to avoid css issues
-			.load(function() {
-				picRealWidth = getStyleValue(_this,'width');   // Note: $(this).width() will not
-				picRealHeight = getStyleValue(_this,'height');; // work for in memory images.
+		// Set the ratio of the image (assumption: never changes)
+		if (ratio === undefined) {
+			picRealWidth = getStyleValue(_this,'width');
+			picRealHeight = getStyleValue(_this,'height');
+			
+			var ratio = picRealWidth / picRealHeight;
+		}
 
-				// set the ratio of the object. we assume, that the ratio of the object never changes.
-				if (ratio === undefined) {
-					ratio = picRealWidth / picRealHeight;
-					_this.data('ratio', ratio);
+		// Set the width/height
+		if (type === 'contain') {
+			if (parent.ratio > ratio) {
+				_this.style.width = (parent.height * ratio);
+			} else {
+				_this.style.height = (parent.width / ratio);
+				_this.style.width = '100%';
+			}
+		}
+		else if (type === 'cover') {
+			// At least one dimension is smaller, so cover needs to size the image
+			if (getStyleValue(parent, 'width') > picRealWidth || getStyleValue(parent, 'height') > picRealHeight) {
+				if (parent.ratio > ratio) {
+					_this.style.width = getStyleValue(parent, 'width');
+					_this.style.height = getStyleValue(parent, 'height') * ratio;
+				} else {
+					_this.style.height = getStyleValue(parent, 'height');
+					_this.style.width = getStyleValue(parent, 'width') * ratio;
 				}
-
-				// Set the width/height
-				if (type === 'contain') {
-					if (parent.ratio > ratio) {
-						_this.style.width = (parent.height * ratio);
-					} else {
-						_this.style.height = (parent.width / ratio);
-						_this.style.width = '100%';
-					}
-				}
-				else if (type === 'cover') {
-					// At least one dimension is smaller, so cover needs to size the image
-					if (getStyleValue(parent, 'width') > picRealWidth || getStyleValue(parent, 'height') > picRealHeight) {
-						if (parent.ratio > ratio) {
-							_this.style.width = getStyleValue(parent, 'width');
-							_this.style.height = getStyleValue(parent, 'height') * ratio;
-						} else {
-							_this.style.height = getStyleValue(parent, 'height');
-							_this.style.width = getStyleValue(parent, 'width') * ratio;
-						}
-					}
-					if (hideOverflow) {
-						// Apply overflow-hidden, or it looks ugly
-						parent.obj.css('overflow', 'hidden');
-					}
-				}
-			});
+			}
+			if (hideOverflow) {
+				// Apply overflow-hidden, or it looks ugly
+				parent.obj.css('overflow', 'hidden');
+			}
+		}
 		
 		image.attr("src", _this.attr("src")); // Has to be done outside of assignment for IE
 	};
 	
 	// Export into global space
 	global.objectFit = objectFitFill;
-	global.getStyleValue = getStyleValue;
-	global.testObjectFitSupport = applyObjectFit;
-
-	// // Add event listener to on resize event
-	// objectFit._addEventListener(window, 'onload', function() {
-	// 	// Test config
-	// 	var a = document.getElementById('one');
-	// 	var b = 'cover';
-	// 	objectFitFill(a, b);
-	// });
 	
 	objectFit._addEventListener(window, 'load', function() {
-		applyObjectFit();
-	});
-	
-	objectFit._addEventListener(window, 'resize', function() {
-		// Test config
-		var a = '#one'
-		var b = 'cover';
-		objectFitFill(a, b);
+		var objectFitSupport = testObjectFitSupport();
+		
+		if (!objectFitSupport) {	
+			objectFit._addEventListener(window, 'resize', function() {
+				// Test config
+				var a = '#one'
+				var b = 'cover';
+				objectFitFill(a, b);
+			});
+		}
+		
 	});
 	
 }(window));
