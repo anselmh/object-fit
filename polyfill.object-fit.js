@@ -23,13 +23,41 @@
 		}
 	};
 	
+	// A function to get computed style values of an element
+	var getStyleValue = function(element, property) {
+		window.getComputedStyle(element).getPropertyValue(property);
+	}
+	
 	// Test native support
 	var testObjectFitSupport = function() {
-
-		var testStyle = document.createElement('modernizr').style,
-						prop = 'object-fit';
 		
-		// @TODO: Add html class .objectfit | .no-objectfit
+		// A function to get computed style values of an element
+		var getStyleValue = function(element, property) {
+			window.getComputedStyle(element).getPropertyValue(property);
+		}
+
+		var testElem = document.createElement('modernizr');
+		testElem.id = 'testObjectFitSupport';
+		testElem.style.cssText = 'object-fit: contain; display: none !important;';
+		
+		document.getElementsByTagName("body")[0].appendChild(testElem);
+		
+		var createdElem = document.querySelector('#testObjectFitSupport');	
+		var objFitValue = window.getComputedStyle(createdElem).getPropertyValue('object-fit');
+	
+		if (!objFitValue) {
+			var htmlElem = document.querySelector('html');
+			htmlElem.className = htmlElem.className + ' no-objectfit';
+		}
+		else {
+			var htmlElem = document.querySelector('html');
+			htmlElem.className = htmlElem.className + ' objectfit';
+		}
+
+		// Remove helper element from DOM
+		if (createdElem) {
+			createdElem.parentNode.removeChild(createdElem);
+		}
 		
 		return false;
 
@@ -37,15 +65,17 @@
 	
 	// Apply the CSS (native or polyfilled)
 	var applyObjectFit = function() {
-
 		// default: contain, available: contain|cover
-		var objectFitType =  type || 'contain';
+		var objectFitType =  'contain';
 		var supportsObjectFit = testObjectFitSupport();
 		
 		// If not supported apply polyfill else CSS is taken w/ html class inheritation
-		if (!supportsObjectFit) {
-			objectFitFill(this, type);
-		}
+		// if (!supportsObjectFit) {
+
+		// 	objectFitFill(this, objectFitType);
+
+		// 	console.log('objectfit not supported, executing polyfill');
+		// }
 
 	};
 	
@@ -61,11 +91,6 @@
 		// Get parent computed Style
 		var parent = element.parentNode,
 			parentStyle = window.getComputedStyle(parent);
-			
-		// A function to get computed style values of an element
-		function getStyleValue(element, property) {
-			window.getComputedStyle(element).getProperyValue(property);
-		}
 		
 		// Find the parent element and its aspect-ratio to fill in the image
 		function findParentRatio(element) {
@@ -131,8 +156,10 @@
 		image.attr("src", _this.attr("src")); // Has to be done outside of assignment for IE
 	};
 	
-	// Export into global space	
+	// Export into global space
 	global.objectFit = objectFitFill;
+	global.getStyleValue = getStyleValue;
+	global.testObjectFitSupport = applyObjectFit;
 
 	// // Add event listener to on resize event
 	// objectFit._addEventListener(window, 'onload', function() {
@@ -141,6 +168,10 @@
 	// 	var b = 'cover';
 	// 	objectFitFill(a, b);
 	// });
+	
+	objectFit._addEventListener(window, 'load', function() {
+		applyObjectFit();
+	});
 	
 	objectFit._addEventListener(window, 'resize', function() {
 		// Test config
