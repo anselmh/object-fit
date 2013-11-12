@@ -36,12 +36,20 @@
 			object-fit: cover;
 		}
 	</style>
-	<script src="../polyfill.object-fit.js"></script>
+	<!-- // <script src="../test.object-fit.js"></script> -->
+	<script src="modernizr.js"></script>
 </head>
 <body>
 	<h1><code>object-fit: cover;</code></h1>
 	<div class="img_container">
 		<img id="one" class="inside-wrapper-div cover" src="image.jpg">
 	</div>
+
+	<!-- Load polyfill -->
+	<script>
+		if(!Modernizr.objectFit) {
+			document.write('<script src="../polyfill.object-fit.js"><\/script>');
+		}
+	</script>
 </body>
 </html>

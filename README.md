@@ -25,7 +25,31 @@ This polyfill is available as Bower component. Use it right away from bower:
 Or set up manually by grabbing the download from GitHub.
 Then use as following:
 
-	// Instructions here
+	// Example call (without Modernizr), needs the test.object-fit.js referenced in the head
+	objectFit._addEventListener(window, 'load', function() {
+		// Only load polyfill if no native support is available
+
+		function hasClass(element, cls) {
+			return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+		}
+
+		if (hasClass(document.querySelector('body'), 'no-objectfit')) {
+			// Config Start
+
+			console.log('found class');
+
+			var element = 'img';
+			var style = 'cover'; // contain | cover available
+			// Config End
+
+			objectFit.polyfill(element, style);
+
+			objectFit._addEventListener(window, 'resize', function() {
+				objectFit.polyfill(element, style);
+			});
+		}
+	});
+
 
 ## Known errors and bugs
 
