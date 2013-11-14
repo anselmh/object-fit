@@ -32,7 +32,6 @@
 			object-fit: contain;
 		}
 	</style>
-	<!-- // <script src="../test.object-fit.js"></script> -->
 	<script src="modernizr.js"></script>
 </head>
 <body>
@@ -44,20 +43,32 @@
 	<script>
 		if(!Modernizr.objectFit) {
 			document.write('<script src="../polyfill.object-fit.js"><\/script>');
-		}
 
-		window.addEventListener('load', function() {
+			// Config Start
+			var element = 'img';
+			var style = 'contain'; // contain | cover available
+			// Config End
 
-			if (!Modernizr.objectFit) {
-				var element = 'img';
-				var style = 'cover'; // contain | cover available
+			// Polyfill addEventListener event
+			function _addEventListener(element, event, callback) {
+				if (element.addEventListener) {
+					element.addEventListener(event, callback, false);
+				} else {
+					element.attachEvent('on' + event, callback);
+				}
+			};
 
+			_addEventListener(window,'load', function() {
+				// Call polyfill to fit in images
 				objectFit.polyfill(element, style);
-				objectFit._addEventListener(window, 'resize', function() {
+
+				// Listen to window.resize to apply the polyfill even when window is resized
+				// Warning: This impacts the performance of your webpage by doing heavy layout recalculations
+				_addEventListener(window, 'resize', function() {
 					objectFit.polyfill(element, style);
 				});
-			}
-		});
+			});
+		}
 	</script>
 </body>
 </html>

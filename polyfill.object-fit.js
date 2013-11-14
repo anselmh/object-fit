@@ -3,7 +3,7 @@
  * http://helloanselm.com/object-fit
  *
  * @author: Anselm Hannemann <hello@anselm-hannemann.com>
- * @version: 0.1.0pre
+ * @version: 0.1.0
  *
  */
 
@@ -13,15 +13,6 @@
 
 	// Storage variable
 	var objectFit = {};
-
-	// Polyfill addEventListener event
-	objectFit._addEventListener = function (element, event, callback) {
-		if (element.addEventListener) {
-			element.addEventListener(event, callback, false);
-		} else {
-			element.attachEvent('on' + event, callback);
-		}
-	};
 
 	// Contains the real polyfill
 	objectFit.polyfill = function(element, parameters) {
@@ -93,33 +84,30 @@
 			_this.style.maxWidth = 'none';
 
 			// Compare aspect ratios of parent and img element
-			if (parentWidthValue > picRealWidthValue || parentHeightValue > picRealHeightValue) {
+			if (parentRatio > ratio) {
+				// Set img width = parent width and calc height based on ratio
+				var newImgWidth = parentStyle.getPropertyValue('width'),
+					newImgHeightVal = (parentWidthValue / ratio),
+					newImgHeight = newImgHeightVal + 'px';
 
-				if (parentRatio > ratio) {
-					// Set img width = parent width and calc height based on ratio
-					var newImgWidth = parentStyle.getPropertyValue('width'),
-						newImgHeightVal = (parentWidthValue / ratio),
-						newImgHeight = newImgHeightVal + 'px';
+				_this.style.width = newImgWidth;
+				_this.style.height = newImgHeight;
+				_this.style.position = 'static';
+				_this.style.left = '0';
+			}
+			else {
+				// Set img height = parent height and calc width based on ratio
+				var newImgWidthVal = (parentHeightValue * ratio),
+					newImgWidth = newImgWidthVal + 'px',
+					newImgHeight = parentStyle.getPropertyValue('height');
 
-					_this.style.width = newImgWidth;
-					_this.style.height = newImgHeight;
-					_this.style.position = 'static';
-					_this.style.left = '0';
-				}
-				else {
-					// Set img height = parent height and calc width based on ratio
-					var newImgWidthVal = (parentHeightValue * ratio),
-						newImgWidth = newImgWidthVal + 'px',
-						newImgHeight = parentStyle.getPropertyValue('height');
+				_this.style.height = newImgHeight;
+				_this.style.width = newImgWidth;
 
-					_this.style.height = newImgHeight;
-					_this.style.width = newImgWidth;
-
-					// If image is large enough, try to re-center it
-					if ((parentRatio / ratio) < 0.7) {
-						_this.style.position = 'relative';
-						_this.style.left = '-' + newImgWidthVal / 4 + 'px';
-					}
+				// If image is large enough, try to re-center it
+				if ((parentRatio / ratio) < 0.7) {
+					_this.style.position = 'relative';
+					_this.style.left = '-' + newImgWidthVal / 4 + 'px';
 				}
 			}
 

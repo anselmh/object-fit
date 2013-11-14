@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 				jshintrc: '.jshintrc'
 			}
 		},
-		
+
 		uglify: {
 			options: {
 				mangle: false,
@@ -40,16 +40,6 @@ module.exports = function (grunt) {
 					'js/*.js'
 				],
 				tasks: 'jshint'
-			}
-		},
-
-		// Server config
-		connect: {
-			server: {
-				options: {
-					port: 9001,
-					keepalive: true
-				}
 			}
 		}
 	});

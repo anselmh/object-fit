@@ -23,32 +23,36 @@ This polyfill is available as Bower component. Use it right away from bower:
 	$ bower install object-fit
 
 Or set up manually by grabbing the download from GitHub.
-Then use as following:
+Then use as following (assuming you use Modernizr with the [objectFit test](http://modernizr.com/download/#-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes-css_objectfit-load) (non-core detect):
 
-	// Example call (without Modernizr), needs the test.object-fit.js referenced in the head
-	objectFit._addEventListener(window, 'load', function() {
-		// Only load polyfill if no native support is available
+	if(!Modernizr.objectFit) {
+		document.write('<script src="../polyfill.object-fit.js"><\/script>');
 
-		function hasClass(element, cls) {
-			return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
-		}
+		// Config Start
+		var element = 'img';
+		var style = 'cover'; // contain | cover available
+		// Config End
 
-		if (hasClass(document.querySelector('body'), 'no-objectfit')) {
-			// Config Start
+		// Polyfill addEventListener event
+		function _addEventListener(element, event, callback) {
+			if (element.addEventListener) {
+				element.addEventListener(event, callback, false);
+			} else {
+				element.attachEvent('on' + event, callback);
+			}
+		};
 
-			console.log('found class');
-
-			var element = 'img';
-			var style = 'cover'; // contain | cover available
-			// Config End
-
+		_addEventListener(window,'load', function() {
+			// Call polyfill to fit in images
 			objectFit.polyfill(element, style);
 
-			objectFit._addEventListener(window, 'resize', function() {
+			// Listen to window.resize to apply the polyfill even when window is resized
+			// Warning: This impacts the performance of your webpage by doing heavy layout recalculations
+			_addEventListener(window, 'resize', function() {
 				objectFit.polyfill(element, style);
 			});
-		}
-	});
+		});
+	}
 
 
 ## Known errors and bugs

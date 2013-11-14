@@ -36,7 +36,6 @@
 			object-fit: cover;
 		}
 	</style>
-	<!-- // <script src="../test.object-fit.js"></script> -->
 	<script src="modernizr.js"></script>
 </head>
 <body>
@@ -55,11 +54,22 @@
 			var style = 'cover'; // contain | cover available
 			// Config End
 
-			window.addEventListener('load', function() {
+			// Polyfill addEventListener event
+			function _addEventListener(element, event, callback) {
+				if (element.addEventListener) {
+					element.addEventListener(event, callback, false);
+				} else {
+					element.attachEvent('on' + event, callback);
+				}
+			};
 
+			_addEventListener(window,'load', function() {
+				// Call polyfill to fit in images
 				objectFit.polyfill(element, style);
 
-				objectFit._addEventListener(window, 'resize', function() {
+				// Listen to window.resize to apply the polyfill even when window is resized
+				// Warning: This impacts the performance of your webpage by doing heavy layout recalculations
+				_addEventListener(window, 'resize', function() {
 					objectFit.polyfill(element, style);
 				});
 			});
