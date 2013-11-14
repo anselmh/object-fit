@@ -26,13 +26,26 @@
 	// Contains the real polyfill
 	objectFit.polyfill = function(element, parameters) {
 
-		// @TODO: Refactor this poor code
-		var type = typeof(parameters) === 'string' ? parameters : parameters.type,
-			hideOverflow = parameters.hideOverflow === undefined ? true : parameters.hideOverflow;
+		var type;
+		var hideOverflow;
+
+		if(typeof(parameters) === 'string') {
+			type = parameters;
+		}
+		else {
+			type = parameters.type;
+		}
+
+		if(parameters.hideOverflow === undefined) {
+			hideOverflow = true;
+		}
+		else {
+			hideOverflow = parameters.hideOverflow;
+		}
 
 		// Get parent computed Style
-		var parent = document.querySelector(element).parentNode,
-			parentStyle = window.getComputedStyle(parent);
+		var parent = document.querySelector(element).parentNode;
+		var parentStyle = window.getComputedStyle(parent);
 
 		// Find the parent element and its aspect-ratio to fill in the image
 		var displayType = parentStyle.getPropertyValue('display');
@@ -106,7 +119,6 @@
 					console.log('parent ratio: ' + parentRatio + ' || img ratio: ' + ratio + ' || ratio diff: ' + (parentRatio / ratio) );
 
 					// If image is large enough, try to re-center it
-
 					if ((parentRatio / ratio) < 0.7) {
 						_this.style.position = 'relative';
 						_this.style.left = '-' + newImgWidthVal / 4 + 'px';

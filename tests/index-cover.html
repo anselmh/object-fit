@@ -49,6 +49,20 @@
 	<script>
 		if(!Modernizr.objectFit) {
 			document.write('<script src="../polyfill.object-fit.js"><\/script>');
+
+			// Config Start
+			var element = 'img';
+			var style = 'cover'; // contain | cover available
+			// Config End
+
+			window.addEventListener('load', function() {
+
+				objectFit.polyfill(element, style);
+
+				objectFit._addEventListener(window, 'resize', function() {
+					objectFit.polyfill(element, style);
+				});
+			});
 		}
 	</script>
 </body>
