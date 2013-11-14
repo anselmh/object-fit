@@ -55,6 +55,7 @@ Then use as following:
 
 - **iOS7** has a bug that the resize event is not fired when the toolbar changes (height) in Safari. This could (depending on your usage of object-fit) lead to a not updated recalculation in those edge-cases. There is currently no way to work around this but anyhow it is really an edge-case.
 
+- If you use [art-directed images](http://usecases.responsiveimages.org/#art-direction) on your page, please don't run them through the polyfill as it assumes the aspect-ratio never changes for an img source and it doesn't detect src-changes through a script.
 
 ----
 

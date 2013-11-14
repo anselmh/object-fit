@@ -3,7 +3,7 @@
  * http://helloanselm.com/object-fit
  *
  * @author: Anselm Hannemann <hello@anselm-hannemann.com>
- * @version: 0.1.0
+ * @version: 0.1.0pre
  *
  */
 
@@ -107,7 +107,6 @@
 					_this.style.left = '0';
 				}
 				else {
-					console.log('true: ' + parentRatio + ' (parent) | (img) ' + ratio);
 					// Set img height = parent height and calc width based on ratio
 					var newImgWidthVal = (parentHeightValue * ratio),
 						newImgWidth = newImgWidthVal + 'px',
@@ -115,8 +114,6 @@
 
 					_this.style.height = newImgHeight;
 					_this.style.width = newImgWidth;
-
-					console.log('parent ratio: ' + parentRatio + ' || img ratio: ' + ratio + ' || ratio diff: ' + (parentRatio / ratio) );
 
 					// If image is large enough, try to re-center it
 					if ((parentRatio / ratio) < 0.7) {
