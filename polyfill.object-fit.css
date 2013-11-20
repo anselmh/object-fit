@@ -10,10 +10,6 @@
 .object-fit {
 	position: relative;
 	float: left;
-/*	width: 150px;
-	height: 150px;
-	margin: 100px 20px 0 0;
-	background: #555;*/
 }
 
 .object-fit > img {
@@ -23,7 +19,6 @@
 	top: -50%;
 	bottom: -50%;
 	margin: auto;
-	opacity: 0.75;
 }
 
 .object-fit-none > img {

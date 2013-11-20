@@ -17,8 +17,8 @@
 	// Detects Img Orientation
 	objectFit.orientation = function(object) {
 		var imgOrientation;
-		var imgWidth = window.getComputedStyle(object).width;
-		var imgHeight = window.getComputedStyle(object).height;
+		var imgWidth = parseInt(window.getComputedStyle(object).width, 10);
+		var imgHeight = parseInt(window.getComputedStyle(object).height, 10);
 
 		if (imgWidth > imgHeight) {
 			imgOrientation = 'landscape';
