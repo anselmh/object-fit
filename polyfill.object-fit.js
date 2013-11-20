@@ -14,105 +14,87 @@
 	// Storage variable
 	var objectFit = {};
 
+	// Detects Img Orientation
+	objectFit.orientation = function(object) {
+		var imgOrientation;
+		var imgWidth = window.getComputedStyle(object).width;
+		var imgHeight = window.getComputedStyle(object).height;
+
+		if (imgWidth > imgHeight) {
+			imgOrientation = 'landscape';
+		}
+		else if (imgWidth < imgHeight) {
+			imgOrientation = 'portrait';
+		}
+		else if (imgWidth = imgHeight) {
+			imgOrientation = 'square';
+		}
+
+		return imgOrientation;
+	}
+
 	// Contains the real polyfill
-	objectFit.polyfill = function(element, parameters) {
+	objectFit.polyfill = function(object, type) {
 
-		var type;
-		var hideOverflow;
+		// Define ultimate fallback for type
+		if (type === undefined) {
+			var type = 'cover';
+		}
 
-		if(typeof(parameters) === 'string') {
-			type = parameters;
+		var objectSelector = document.querySelectorAll(object);
+		var selectorByType;
+
+		if (document.getElementsByClassName('object-fit-cover').length > 0) {
+			type = 'cover';
+			selectorByType = document.getElementsByClassName('object-fit-cover');
+		}
+		else if (document.getElementsByClassName('object-fit-contain').length > 0) {
+			type = 'contain';
+			selectorByType = document.getElementsByClassName('object-fit-contain');
 		}
 		else {
-			type = parameters.type;
+			type = 'cover';
+			selectorByType = objectSelector;
 		}
 
-		if(parameters.hideOverflow === undefined) {
-			hideOverflow = true;
-		}
-		else {
-			hideOverflow = parameters.hideOverflow;
-		}
+		// Wrap elements, then apply effect through CSS classes
+		if (type==='cover') {
+			// Wrap img elements with surrounding div
+			for (var i=0; i < selectorByType.length; i++) {
+				var img = selectorByType[i];
+				var parent = img.parentNode;
 
-		// Get parent computed Style
-		var parent = document.querySelector(element).parentNode;
-		var parentStyle = window.getComputedStyle(parent);
+				var imgOrientation = objectFit.orientation(img);
 
-		// Find the parent element and its aspect-ratio to fill in the image
-		var displayType = parentStyle.getPropertyValue('display');
+				var wrapper = document.createElement('div');
 
-		if (displayType == 'block' || displayType == 'inline-block' || displayType == '-webkit-box' && parentStyle.getPropertyValue('width') > 0) {
+				var wrapperCSSClasses = 'object-fit object-fit-cover';
+				var imgCSSClasses = imgOrientation;
 
-			var	parentObj = parentStyle,
-				parentWidth = parentStyle.getPropertyValue('width'),
-				parentHeight = parentStyle.getPropertyValue('height'),
-				parentRatio = parseInt(parentWidth, 10) / parseInt(parentHeight, 10);
-		}
+				wrapper.setAttribute('class', wrapperCSSClasses);
+				img.className += imgCSSClasses;
 
-		// Define the vars for the image element
-		var _this = document.querySelector(element),
-			picRealWidth = 0,
-			picRealHeight = 0,
-			image = document.querySelector('img');
+				parent.insertBefore(wrapper, img);
+				wrapper.appendChild(img);
 
-		// Set the ratio of the image (assumption: never changes)
-		if (ratio === undefined) {
-			picRealWidth = window.getComputedStyle(_this).getPropertyValue('width');
-			picRealHeight = window.getComputedStyle(_this).getPropertyValue('height');
-
-			var ratio = parseInt(picRealWidth, 10) / parseInt(picRealHeight, 10);
-		}
-
-		// Set the width/height
-		if (type === 'contain') {
-			if (parentRatio > ratio) {
-				_this.style.width = (parent.height * ratio);
-			} else {
-				_this.style.height = (parent.width / ratio);
-				_this.style.width = '100%';
+				return;
 			}
 		}
-		else if (type === 'cover') {
+		else if (type==='contain') {
+			console.log('Class found: object-fit-contain');
 
-			// At least one dimension is smaller, so cover needs to size the image
-			var parentWidthValue = parseInt(parentStyle.getPropertyValue('width'), 10);
-			var parentHeightValue = parseInt(parentStyle.getPropertyValue('height'), 10);
-			var picRealWidthValue = parseInt(picRealWidth, 10);
-			var picRealHeightValue = parseInt(picRealHeight, 10);
+			// Wrap img elements with surrounding div
+			for (var i = 0; i < selectorByType.length; i++) {
+				var img = selectorByType[i];
+				var parent = img.parentNode;
 
-			// Disable max-width: 100%; to preserve aspect-ratio of the image
-			_this.style.maxWidth = 'none';
+				var wrapper = document.createElement('div');
+				wrapper.setAttribute('class','object-fit object-fit-contain');
 
-			// Compare aspect ratios of parent and img element
-			if (parentRatio > ratio) {
-				// Set img width = parent width and calc height based on ratio
-				var newImgWidth = parentStyle.getPropertyValue('width'),
-					newImgHeightVal = (parentWidthValue / ratio),
-					newImgHeight = newImgHeightVal + 'px';
+				parent.insertBefore(wrapper, img);
+				wrapper.appendChild(img);
 
-				_this.style.width = newImgWidth;
-				_this.style.height = newImgHeight;
-				_this.style.position = 'static';
-				_this.style.left = '0';
-			}
-			else {
-				// Set img height = parent height and calc width based on ratio
-				var newImgWidthVal = (parentHeightValue * ratio),
-					newImgWidth = newImgWidthVal + 'px',
-					newImgHeight = parentStyle.getPropertyValue('height');
-
-				_this.style.height = newImgHeight;
-				_this.style.width = newImgWidth;
-
-				// If image is large enough, try to re-center it
-				if ((parentRatio / ratio) < 0.7) {
-					_this.style.position = 'relative';
-					_this.style.left = '-' + newImgWidthVal / 4 + 'px';
-				}
-			}
-
-			if (hideOverflow) {
-				document.querySelector(element).parentNode.style.overflow = 'hidden';
+				return;
 			}
 		}
 	};
