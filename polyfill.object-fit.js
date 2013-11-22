@@ -41,7 +41,7 @@
 		var defaultComputedStyle = this.getComputedStyle(defaultElement, iframe.contentWindow);
 		
 		for (var property in defaultComputedStyle) {
-			var value = defaultComputedStyle.getPropertyValue(property);
+			var value = defaultComputedStyle.getPropertyValue ? defaultComputedStyle.getPropertyValue(property) : defaultComputedStyle[property];
 			if (value !== null) {
 				switch (property) {
 					default:
@@ -66,7 +66,7 @@
 	
 	objectFit.getMatchedStyle = function(element, property){
 		// element property has highest priority
-		var val = element.style.getPropertyValue(property);
+		var val = element.style.getPropertyValue ? element.style.getPropertyValue(property) : element.currentStyle[property];
 	
 		// if it's important, we are done
 		if (val !== null) return val;
