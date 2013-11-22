@@ -3,7 +3,8 @@
  * http://helloanselm.com/object-fit
  *
  * @author: Anselm Hannemann <hello@anselm-hannemann.com>
- * @version: 0.1.0
+ * @author: Christian "Schepp" Schaefer <schaepp@gmx.de>
+ * @version: 0.2.0
  *
  */
 

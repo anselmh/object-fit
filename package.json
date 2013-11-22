@@ -2,7 +2,7 @@
   "name": "object-fit",
   "title": "object-fit polyfill",
   "description": "Polyfill for the CSS object-fit property to fit images into containers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/anselmh/object-fit",
   "repository": {
     "type": "git",
@@ -31,10 +31,10 @@
     "karma-chrome-launcher": "~0.1.0",
     "karma-firefox-launcher": "~0.1.0",
     "karma-safari-launcher": "~0.1.1",
-    "karma-opera-launcher": "~0.1.0"
+    "karma-opera-launcher": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
     "karma-jasmine": "~0.1.3",
-    "karma": "~0.10.2",
+    "karma": "~0.10.2"
 
   },
   "keywords": []
