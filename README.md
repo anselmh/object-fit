@@ -23,36 +23,14 @@ This polyfill is available as Bower component. Use it right away from bower:
 	$ bower install object-fit
 
 Or set up manually by grabbing the download from GitHub.
-Then use as following (assuming you use Modernizr with the [objectFit test](http://modernizr.com/download/#-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes-css_objectfit-load) (non-core detect):
+Then put the CSS file at the top, the JavaScript file at the bottom of your HTML. Right behind the JavaScript put the following JavaScript:
 
-	if(!Modernizr.objectFit) {
-		document.write('<script src="../polyfill.object-fit.js"><\/script>');
-
-		// Config Start
-		var element = 'img';
-		var style = 'cover'; // contain | cover available
-		// Config End
-
-		// Polyfill addEventListener event
-		function _addEventListener(element, event, callback) {
-			if (element.addEventListener) {
-				element.addEventListener(event, callback, false);
-			} else {
-				element.attachEvent('on' + event, callback);
-			}
-		};
-
-		_addEventListener(window,'load', function() {
-			// Call polyfill to fit in images
-			objectFit.polyfill(element, style);
-
-			// Listen to window.resize to apply the polyfill even when window is resized
-			// Warning: This impacts the performance of your webpage by doing heavy layout recalculations
-			_addEventListener(window, 'resize', function() {
-				objectFit.polyfill(element, style);
-			});
+	<script>
+		objectFit.polyfill({
+			selector: 'img', // this can be any CSS selector
+			fittype: 'contain' // either contain, cover, fill or none
 		});
-	}
+	</script>
 
 
 ## Known errors and bugs
@@ -66,7 +44,7 @@ Then use as following (assuming you use Modernizr with the [objectFit test](http
 
 ## Author
 
-This polyfill is written by [Anselm Hannemann](http://helloanselm.com/). [Follow him on twitter](https://twitter.com/helloanselm) or check out [his GitHub profile](http://github.com/anselmh/) for more information.
+This polyfill is written by [Anselm Hannemann](http://helloanselm.com/) and [Christian "Schepp" Schaefer](https://twitter.com/derSchepp). Follow them on Twitter via [@helloanselm](https://twitter.com/helloanselm) and [@derSchepp](https://twitter.com/derSchepp) or check their GitHub profiles via [anselmh](http://github.com/anselmh/) and [Schepp](http://github.com/Schepp/) for more information.
 
 ## License
 
