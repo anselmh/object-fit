@@ -7,63 +7,82 @@
  *
  */
 
-.object-fit {
-	position: relative;
-	float: left;
+x-object-fit {
+	position: relative !important;
+	display: inline-block !important;
 }
 
-.object-fit > img {
-	position: absolute;
-	left: -50%;
-	right: -50%;
-	top: -50%;
-	bottom: -50%;
-	margin: auto;
+x-object-fit > .x-object-fit-taller,
+x-object-fit > .x-object-fit-wider {
+	position: absolute !important;
+	left: -100% !important;
+	right: -100% !important;
+	top: -100% !important;
+	bottom: -100% !important;
+	margin: auto !important;
 }
 
-.object-fit-none > img {
-	width: auto;
-	height: auto;
+.x-object-fit-none > .x-object-fit-taller,
+.x-object-fit-none > .x-object-fit-wider {
+	width: auto !important;
+	height: auto !important;
 }
 
-.object-fit-fill > img {
-	width: 100%;
-	height: 100%;
+.x-object-fit-fill > .x-object-fit-taller,
+.x-object-fit-fill > .x-object-fit-wider {
+	width: 100% !important;
+	height: 100% !important;
 }
 
-.object-fit-contain > img.portrait {
-	width: auto;
-	height: 100%;
+.x-object-fit-contain > .x-object-fit-taller {
+	width: auto !important;
+	height: 100% !important;
 }
 
-.object-fit-contain > img.landscape {
-	width: 100%;
-	height: auto;
+.x-object-fit-contain > .x-object-fit-wider {
+	width: 100% !important;
+	height: auto !important;
 }
 
-.object-fit-cover > img {
-	max-width: none;
-	max-height: none;
+.x-object-fit-cover > .x-object-fit-taller,
+.x-object-fit-cover > .x-object-fit-wider {
+	max-width: none !important;
+	max-height: none !important;
 }
 
-.object-fit-cover > img.portrait {
-	width: 100%;
-	height: auto;
-	max-width: none;
+.x-object-fit-cover > .x-object-fit-taller {
+	width: 100% !important;
+	height: auto !important;
+	max-width: none !important;
 }
 
-.object-fit-cover > img.landscape {
-	width: auto;
-	height: 100%;
-	max-width: none;
+.x-object-fit-cover > .x-object-fit-wider {
+	width: auto !important;
+	height: 100% !important;
+	max-width: none !important;
 }
 
-.object-position-right > img {
-	left: auto;
-	right: 0;
+.x-object-position-top > .x-object-fit-taller,
+.x-object-position-top > .x-object-fit-wider {
+	top: 0 !important;
+	bottom: auto !important;
 }
 
-.object-position-top > img {
-	top: 0;
-	bottom: auto;
+.x-object-position-right > .x-object-fit-taller,
+.x-object-position-right > .x-object-fit-wider {
+	left: auto !important;
+	right: 0 !important;
 }
+
+.x-object-position-bottom > .x-object-fit-taller,
+.x-object-position-bottom > .x-object-fit-wider {
+	top: auto !important;
+	bottom: 0 !important;
+}
+
+.x-object-position-left > .x-object-fit-taller,
+.x-object-position-left > .x-object-fit-wider {
+	left: 0 !important;
+	right: auto !important;
+}
+

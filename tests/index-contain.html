@@ -1,74 +1,32 @@
-<!Doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
-	<style type="text/css">
-		body {
-			min-height: 100vh;
-			margin: 0;
-			padding: 10px;
-		}
-
-		* {
-			-webkit-box-sizing: border-box;
-			   -moz-box-sizing: border-box;
-			        box-sizing: border-box;
-		}
-
-		.img_container {
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="../polyfill.object-fit.css">
+	<style>
+		img {
 			width: 100%;
 			height: 35rem;
-			overflow: hidden;
 
 			margin: 10px 0;
 			border: 5px solid red;
-		}
 
-		.inside-wrapper-div {
-			width: 100%;
-			height: 35rem;
-		}
-
-		.contain {
 			object-fit: contain;
+			overflow: hidden;
 		}
 	</style>
-	<script src="modernizr.js"></script>
 </head>
 <body>
 	<h1><code>object-fit: contain;</code></h1>
-	<div class="img_container">
-		<img class="inside-wrapper-div contain" src="image.jpg">
-	</div>
+	<img src="image.jpg">
 
+	<script src="../polyfill.object-fit.js"></script>
 	<script>
-		if(!Modernizr.objectFit) {
-			document.write('<script src="../polyfill.object-fit.js"><\/script>');
-
-			// Config Start
-			var element = 'img';
-			var style = 'contain'; // contain | cover available
-			// Config End
-
-			// Polyfill addEventListener event
-			function _addEventListener(element, event, callback) {
-				if (element.addEventListener) {
-					element.addEventListener(event, callback, false);
-				} else {
-					element.attachEvent('on' + event, callback);
-				}
-			};
-
-			_addEventListener(window,'load', function() {
-				// Call polyfill to fit in images
-				objectFit.polyfill(element, style);
-
-				// Listen to window.resize to apply the polyfill even when window is resized
-				// Warning: This impacts the performance of your webpage by doing heavy layout recalculations
-				_addEventListener(window, 'resize', function() {
-					objectFit.polyfill(element, style);
-				});
-			});
-		}
+		// Call polyfill to fit in images
+		objectFit.polyfill({
+			selector: 'img',
+			fittype: 'contain'
+		});
 	</script>
 </body>
 </html>

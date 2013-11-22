@@ -1,78 +1,32 @@
-<!Doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
-	<style type="text/css">
-		body {
-			min-height: 100vh;
-			margin: 0;
-			padding: 10px;
-		}
-
-		* {
-			-webkit-box-sizing: border-box;
-			   -moz-box-sizing: border-box;
-			        box-sizing: border-box;
-		}
-
+	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="../polyfill.object-fit.css">
+	<style>
 		img {
-			max-width: 100%;
-			height: auto;
-		}
-
-		.object-fit {
 			width: 100%;
 			height: 35rem;
-			overflow: hidden;
 
 			margin: 10px 0;
 			border: 5px solid red;
-		}
 
-		.inside-wrapper-div {
-			/* image styles (shouldn't contain fixed widths and heights */
-		}
-
-		.cover {
 			object-fit: cover;
+			overflow: hidden;
 		}
 	</style>
-	<script src="modernizr.js"></script>
-	<script>
-		if(!Modernizr.objectFit) {
-			document.write('<link rel="stylesheet" href="../polyfill.object-fit.css">');
-		}
-	</script>
 </head>
 <body>
 	<h1><code>object-fit: cover;</code></h1>
-	<div class="img_container">
-		<img id="one" class="inside-wrapper-div " src="image.jpg">
-	</div>
+	<img src="image.jpg">
 
-	<!-- Load polyfill -->
+	<script src="../polyfill.object-fit.js"></script>
 	<script>
-		if(!Modernizr.objectFit) {
-			// Config Start
-			var element = 'img';
-			// var style = 'cover'; // contain | cover available
-			// Config End
-
-			document.write('<script src="../polyfill.object-fit.js"><\/script>');
-
-			// Polyfill addEventListener event
-			function _addEventListener(element, event, callback) {
-				if (element.addEventListener) {
-					element.addEventListener(event, callback, false);
-				} else {
-					element.attachEvent('on' + event, callback);
-				}
-			};
-
-			_addEventListener(window,'load', function() {
-				// Call polyfill to fit in images
-				objectFit.polyfill(element);
-			});
-		}
+		// Call polyfill to fit in images
+		objectFit.polyfill({
+			selector: 'img',
+			fittype: 'cover'
+		});
 	</script>
 </body>
 </html>
