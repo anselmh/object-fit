@@ -4,7 +4,7 @@ This is a headless polyfill for the CSS object-fit property which defines the si
 
 ## The Webstandard
 
-The Sepcification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit).
+The Specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit).
 
 ## How the polyfill works
 
@@ -14,7 +14,7 @@ The polyfill uses a feature detection method to see if object-fit is supported.
 
 ## Browser Support
 
-Currently no information.
+This polyfill works in all major browsers as well as in IE8+.
 
 ## Setup / Usage
 
