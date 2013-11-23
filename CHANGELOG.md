@@ -1,7 +1,5 @@
 # Changelog
 
-### HEAD
-
-### 1.0.0 (November, 5th, 2013)
+### 0.2.0 (November 24th, 2013)
 
 * Initial Release
