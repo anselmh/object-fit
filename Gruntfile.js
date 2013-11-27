@@ -13,10 +13,21 @@ module.exports = function (grunt) {
 		jshint: {
 			all: [
 				'Gruntfile.js',
-				'js/*.js'
+				'src/polyfill.object-fit.core.js'
 			],
 			options: {
 				jshintrc: '.jshintrc'
+			}
+		},
+		
+		concat: {
+			csss: {
+				src: 'src/polyfill.object-fit.css',
+				dest: 'dist/polyfill.object-fit.css'
+			},
+			js: {
+				src: ['src/polyfill.getMatchedCSSRules.js', 'src/polyfill.rAF.js', 'src/polyfill.object-fit.core.js'],
+				dest: 'dist/polyfill.object-fit.js'
 			}
 		},
 
@@ -26,9 +37,9 @@ module.exports = function (grunt) {
 				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
 						'<%= grunt.template.today("yyyy-mm-dd") %> */'
 			},
-			deploy: {
+			js: {
 				files: {
-					'polyfill.object-fit.min.js': 'polyfill.object-fit.js'
+					'dist/polyfill.object-fit.min.js': 'dist/polyfill.object-fit.js'
 				}
 			}
 		},
@@ -37,9 +48,12 @@ module.exports = function (grunt) {
 			js: {
 				files: [
 					'Gruntfile.js',
-					'js/*.js'
+					'src/polyfill.object-fit.css',
+					'src/polyfill.getMatchedCSSRules.js',
+					'src/polyfill.rAF.js',
+					'src/polyfill.object-fit.core.js'
 				],
-				tasks: 'jshint'
+				tasks: ['jshint', 'concat', 'uglify']
 			}
 		}
 	});
@@ -50,16 +64,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
-	// A task for development
-	grunt.registerTask('dev', ['jshint']);
-
-	// A task for deployment
-	grunt.registerTask('deploy', ['jshint', 'uglify']);
-
 	// Default task
-	grunt.registerTask('default', ['jshint', 'uglify']);
-
-	// Travis CI task
-	grunt.registerTask('travis', ['jshint']);
+	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 
 };
