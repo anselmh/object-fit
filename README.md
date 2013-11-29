@@ -4,8 +4,13 @@ This is a headless polyfill for the CSS object-fit property which defines the si
 
 ## The Webstandard
 
-The Specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit).
-Basically it works like this:
+The Specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property either resizes the image into its parent element according to its values which can be:
+
+- `cover` fills the parent element completely so it's covered with the image (cuts parts of the image). Respects aspect-ratio.
+- `contain` fills in the image into its parent element as big as possible while respecting aspect-ratio and showing the full image. It's also called `letterbox` view.
+- `fill` fills the image into its parent element so it's covered. Doesn't respect aspect-ratio and stretches the image.
+
+You can use the CSS property for example this way:
 
 	img {
 		width: 100%;
@@ -21,23 +26,7 @@ Normally, the image would be stretched but due to the usage of the CSS property 
 
 ## Feature Detection
 
-The polyfill uses a feature detection method to see if object-fit is supported. The function is to be found in [polyfill.object-fit.min.js](https://github.com/anselmh/object-fit/blob/master/dist/polyfill.object-fit.min.js):
-
-	objectFit.polyfill = function(args) {
-		if('objectFit' in document.documentElement.style === false) {
-			if (window.addEventListener) {
-				window.addEventListener('load', function(){
-					objectFit.init(args);
-				}, false);
-			} else {
-				window.attachEvent('onload', function(){
-					objectFit.init(args);
-				});
-			}
-		}
-	};
-
-This tests if the CSS property `object-fit` is defined in the Browser and conditonally loads the polyfill if it isn't.
+The polyfill uses a feature detection method to see if object-fit is supported. This tests if the CSS property `object-fit` is defined in the Browser and conditonally loads the polyfill if it isn't.
 
 ## Browser Support
 
