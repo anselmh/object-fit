@@ -43,10 +43,10 @@ This tests if the CSS property `object-fit` is defined in the Browser and condit
 
 This polyfill works in all major browsers as well as in IE8+.
 
-|  Google Chrome  |  yes  |  (from v31 natively via experimental flag)  |
-|  Opera  |  14+  |  (from v18 natively via experimental flag)  |
-|  Firefox  |  4+  |  (vote for [this bug](https://bugzilla.mozilla.org/show_bug.cgi?id=624647))  |
-|  Internet Explorer  |  8+  |  (not implemented yet)  |
+-  Google Chrome  |  yes  |  (from v31 natively via experimental flag)
+-  Opera  |  14+  |  (from v18 natively via experimental flag)
+-  Firefox  |  4+  |  (vote for [this bug](https://bugzilla.mozilla.org/show_bug.cgi?id=624647))
+-  Internet Explorer  |  8+  |  (not implemented yet)
 
 ## Setup / Usage
 
