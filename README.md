@@ -7,7 +7,7 @@ This is a headless polyfill for the CSS object-fit property which defines the si
 The Specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property either resizes the image into its parent element according to its values which can be:
 
 - `fill` streches the image exactly to the defined dimensions which results in a distorted image. Comparable to `background-size: 100% 100%`. That's the default value.
-- `none` leaves the image at its natural size and centers it inside within the defined area. If the image's natual dimensions are larger than the defined area parts of the image will poke out of it unless you also set `overflow: hidden` on it. Comparable to `background-size: auto auto; background-position: center center`.
+- `none` leaves the image at its natural size and centers it inside within the defined area. If the image's natural dimensions are larger than the defined area parts of the image will poke out of it unless you also set `overflow: hidden` on it. Comparable to `background-size: auto auto; background-position: center center`.
 - `contain` scales the image up or down until all of it fits into the defined area. This mode respects the image's natural aspect-ratio. It's also called "letterbox view". Comparable to `background-size: contain`.
 - `cover` scales the image up or down until every pixel of the defined area is covered with parts of the image. Sort of "pan and scan view". This means that parts of the image will poke out of the defined area unless you also set `overflow: hidden` on it. This mode respects the image's natural aspect-ratio. Comparable to `background-size: cover`.
 
