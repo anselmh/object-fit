@@ -23,7 +23,7 @@ You can use the CSS property for example this way:
 		overflow: hidden; // Cuts off the parts of the image poking out 
 	}
 
-Normally, the image would be stretched to the specified dimentsions but due to the usage of the CSS property `object-fit: cover;` the image now is resized proportionally, up or down, until every pixel of the defined area is covered by parts of it. In the case of cover this means that parts of the image will overlap the given area.
+Normally, the image would be stretched to the specified dimensions but due to the usage of the CSS property `object-fit: cover;` the image now is scaled proportionally, until every pixel of the defined area is covered by parts of it. In the case of cover this means that parts of the image will overlap the given area.
 
 ## Feature Detection
 
