@@ -194,7 +194,7 @@
  *
  * @author: Anselm Hannemann <hello@anselm-hannemann.com>
  * @author: Christian "Schepp" Schaefer <schaepp@gmx.de>
- * @version: 0.3.0
+ * @version: 0.3.1
  *
  */
 
@@ -543,15 +543,21 @@
 			if (objectFit._debug && window.console) {
 				console.log('object-fit not natively supported');
 			}
-			if (window.addEventListener) {
-				window.addEventListener('load', function(){
-					objectFit.init(args);
-				}, false);
-			} else {
-				window.attachEvent('onload', function(){
-					objectFit.init(args);
-				});
-			}
+			// If the library is loaded after document onload event
+            if(document.readyState === 'complete') {
+                objectFit.init(args);
+            } else {
+                // Otherwise attach event listeners
+                if (window.addEventListener) {
+                    window.addEventListener('load', function(){
+                        objectFit.init(args);
+                    }, false);
+                } else {
+                    window.attachEvent('onload', function(){
+                        objectFit.init(args);
+                    });
+                }
+            }
 		} else {
 			if (objectFit._debug && window.console) {
 				console.log('object-fit natively supported');
