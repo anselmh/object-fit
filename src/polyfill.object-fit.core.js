@@ -16,7 +16,7 @@
 	var objectFit = {};
 
 	objectFit._debug = false;
-	
+
 	objectFit.observer = null;
 
 	objectFit.getComputedStyle = function(element, context) {
@@ -66,12 +66,12 @@
 
 		return styles;
 	};
-	
+
 	objectFit.getMatchedStyle = function(element, property){
 		// element property has highest priority
 		var val = null;
 		var inlineval = null;
-		
+
 		if (element.style.getPropertyValue) {
 			inlineval = element.style.getPropertyValue(property);
 		} else if (element.currentStyle) {
@@ -80,15 +80,15 @@
 
 		// get matched rules
 		var rules = window.getMatchedCSSRules(element);
-		
+
 		if (rules.length) {
 			// iterate the rules backwards
 			// rules are ordered by priority, highest last
 			for (var i = rules.length; i --> 0;){
 				var r = rules[i];
-	
+
 				var important = r.style.getPropertyPriority(property);
-	
+
 				// if set, only reset if important
 				if (val === null || important) {
 					val = r.style.getPropertyValue(property);
@@ -106,7 +106,7 @@
 		if (!val && inlineval !== null) {
 			val = inlineval;
 		}
-		
+
 		return val;
 	};
 
@@ -163,10 +163,10 @@
 			this.processElement(replacedElements[i], args);
 		}
 	};
-	
+
 	objectFit.processElement = function(replacedElement, args) {
 		var property, value;
-		
+
 		var replacedElementStyles = objectFit.getComputedStyle(replacedElement);
 		var replacedElementDefaultStyles = objectFit.getDefaultComputedStyle(replacedElement);
 
@@ -186,7 +186,7 @@
 						wrapperElement.style[property] = value;
 					}
 				break;
-				
+
 				case 'length':
 				case 'parentRule':
 				break;
@@ -205,7 +205,7 @@
 					}
 					replacedElement.style[property] = value;
 				break;
-				
+
 				case 'length':
 				case 'parentRule':
 				break;
@@ -227,7 +227,7 @@
 				objectFit.orientation(replacedElement);
 			});
 		};
-		
+
 		switch (args.fittype) {
 			default:
 			break;
@@ -245,7 +245,7 @@
 			break;
 		}
 	};
-	
+
 	objectFit.listen = function(args) {
 		var domInsertedAction = function(element){
 			for (var i = 0, argsLength = args.length; i < argsLength; i++) {
@@ -262,7 +262,7 @@
 				}
 			}
 		};
-		
+
 		var domInsertedObserverFunction = function(element){
 			objectFit.observer.disconnect();
 			domInsertedAction(element);
@@ -271,7 +271,7 @@
 				subtree: true
 			});
 		};
-		
+
 		var domInsertedEventFunction = function(event){
 			window.removeEventListener('DOMNodeInserted', domInsertedEventFunction, false);
 			domInsertedAction(event.target);
@@ -286,7 +286,7 @@
 				}
 			}
 		};
-		
+
 		var domRemovedObserverFunction = function(element){
 			objectFit.observer.disconnect();
 			domRemovedAction(element);
@@ -295,7 +295,7 @@
 				subtree: true
 			});
 		};
-		
+
 		var domRemovedEventFunction = function(event){
 			window.removeEventListener('DOMNodeRemoved', domRemovedEventFunction, false);
 			domRemovedAction(event.target.parentNode);
@@ -354,20 +354,20 @@
 				console.log('object-fit not natively supported');
 			}
 			// If the library is loaded after document onload event
-            if(document.readyState === 'complete') {
-                objectFit.init(args);
-            } else {
-                // Otherwise attach event listeners
-                if (window.addEventListener) {
-                    window.addEventListener('load', function(){
-                        objectFit.init(args);
-                    }, false);
-                } else {
-                    window.attachEvent('onload', function(){
-                        objectFit.init(args);
-                    });
-                }
-            }
+			if(document.readyState === 'complete') {
+				objectFit.init(args);
+			} else {
+				// Otherwise attach event listeners
+				if (window.addEventListener) {
+					window.addEventListener('load', function(){
+						objectFit.init(args);
+					}, false);
+				} else {
+					window.attachEvent('onload', function(){
+						objectFit.init(args);
+					});
+				}
+			}
 		} else {
 			if (objectFit._debug && window.console) {
 				console.log('object-fit natively supported');
