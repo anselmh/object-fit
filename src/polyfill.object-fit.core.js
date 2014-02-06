@@ -375,7 +375,21 @@
 		}
 	};
 
-	// Export into global space
-	global.objectFit = objectFit;
+	/*
+	 * AMD, module loader, global registration
+	 */
+
+	// Expose modal for loaders that implement the Node module pattern.
+	if (typeof module === 'object' && module && typeof module.exports === 'object') {
+		module.exports = objectFit;
+
+	// Register as an AMD module
+	} else if (typeof define === 'function' && define.amd) {
+		define([], function () { return objectFit; });
+
+	// Export CSSModal into global space
+	} else if (typeof global === 'object' && typeof global.document === 'object') {
+		global.objectFit = objectFit;
+	}
 
 }(window));

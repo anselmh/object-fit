@@ -1,5 +1,9 @@
 # Changelog
 
+### HEAD
+
+* Add AMD defition in core JavaScript
+
 ### 0.3.1 (January 23rd, 2014)
 
 * Enabled polyfill to initialize after load when being fetched asynchronously
