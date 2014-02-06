@@ -2,7 +2,7 @@
 
 ### HEAD
 
-* Add AMD defition in core JavaScript
+* Add AMD definition in core JavaScript
 
 ### 0.3.1 (January 23rd, 2014)
 

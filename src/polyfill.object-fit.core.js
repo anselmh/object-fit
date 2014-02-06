@@ -387,7 +387,7 @@
 	} else if (typeof define === 'function' && define.amd) {
 		define([], function () { return objectFit; });
 
-	// Export CSSModal into global space
+	// Export into global space
 	} else if (typeof global === 'object' && typeof global.document === 'object') {
 		global.objectFit = objectFit;
 	}
