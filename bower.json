@@ -1,6 +1,6 @@
 {
   "name": "object-fit",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "polyfill.object-fit.js",
   "ignore": [
     "**/.*",

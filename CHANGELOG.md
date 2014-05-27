@@ -2,6 +2,9 @@
 
 ### HEAD
 
+### 0.3.2 (May, 27th, 2014)
+
+* Fix for Firefox
 * Add AMD definition in core JavaScript
 
 ### 0.3.1 (January 23rd, 2014)
