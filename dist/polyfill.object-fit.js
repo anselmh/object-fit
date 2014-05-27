@@ -392,8 +392,16 @@
 					value = replacedElementDefaultStyles[property];
 					if (objectFit._debug && window.console && value !== '') {
 						console.log(property + ': ' + value);
+
+						if (!replacedElement.style[property]) {
+							console.log('Indexed style properties not supported in: ' + window.navigator.userAgent);
+						}
 					}
-					replacedElement.style[property] = value;
+					if (replacedElement.style[property]) {
+						replacedElement.style[property] = value;
+					} else {
+						replacedElement.style.property = value;
+					}
 				break;
 
 				case 'length':

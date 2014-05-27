@@ -1,6 +1,8 @@
 # Changelog
 
 ### HEAD
+
+### 0.3.3 (May, 27th, 2014)
 * Extended fix for Firefox (#5)
 
 ### 0.3.2 (May, 27th, 2014)
