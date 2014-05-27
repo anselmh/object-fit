@@ -390,12 +390,15 @@
 			switch (property) {
 				default:
 					value = replacedElementDefaultStyles[property];
+
 					if (objectFit._debug && window.console && value !== '') {
 						console.log(property + ': ' + value);
 					}
-					replacedElement.style[property] = value;
+					if (value !== '') {
+						replacedElement.style['property'] = value;
+					}
 				break;
-				
+
 				case 'length':
 				case 'parentRule':
 				break;
