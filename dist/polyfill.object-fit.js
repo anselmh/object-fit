@@ -26,7 +26,7 @@
 				}
 				return items;
 			};
-	 
+
 			// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
 			var getSheetRules = function(stylesheet) {
 				var sheet_media = stylesheet.media && stylesheet.media.mediaText;
@@ -37,7 +37,7 @@
 				// get the style rules of this sheet
 				return toArray(stylesheet.cssRules);
 			};
-	 
+
 			var _find = function (string, re) {
 				var matches = string.match(re);
 				return re ? re.length : 0;
@@ -80,15 +80,15 @@
 				}
 				return parseInt(score.join(''), 10);
 			};
-	 
+
 			// returns the heights possible specificity score an element can get from a give rule's selectorText
 			var getSpecificityScore = function(element, selector_text) {
 				var selectors = selector_text.split(','),
 					selector, score, result = 0;
 				while ( selector = selectors.shift() ) {
-					if ((element.mozMatchesSelector && element.mozMatchesSelector(selector)) || 
-						(element.msMatchesSelector && element.msMatchesSelector(selector)) || 
-						(element.oMatchesSelector && element.oMatchesSelector(selector)) || 
+					if ((element.mozMatchesSelector && element.mozMatchesSelector(selector)) ||
+						(element.msMatchesSelector && element.msMatchesSelector(selector)) ||
+						(element.oMatchesSelector && element.oMatchesSelector(selector)) ||
 						(element.webkitMatchesSelector && element.webkitMatchesSelector(selector))
 					) {
 						score = calculateScore(selector);
@@ -97,16 +97,16 @@
 				}
 				return result;
 			};
-	 
+
 			var sortBySpecificity = function(element, rules) {
 				// comparing function that sorts CSSStyleRules according to specificity of their `selectorText`
 				function compareSpecificity (a, b) {
 					return getSpecificityScore(element, b.selectorText) - getSpecificityScore(element, a.selectorText);
 				}
-	 
+
 				return rules.sort(compareSpecificity);
 			};
-	 
+
 			//TODO: not supporting 2nd argument for selecting pseudo elements
 			//TODO: not supporting 3rd argument for checking author style sheets only
 			window.getMatchedCSSRules = function (element /*, pseudo, author_only*/) {
@@ -115,7 +115,7 @@
 					result = [];
 				// get stylesheets and convert to a regular Array
 				style_sheets = toArray(window.document.styleSheets);
-	 
+
 				// assuming the browser hands us stylesheets in order of appearance
 				// we iterate them from the beginning to follow proper cascade order
 				while ( sheet = style_sheets.shift() ) {
@@ -138,9 +138,9 @@
 							continue
 						}
 						// check if this element matches this rule's selector
-						if ((element.mozMatchesSelector && element.mozMatchesSelector(rule.selectorText)) || 
-							(element.msMatchesSelector && element.msMatchesSelector(rule.selectorText)) || 
-							(element.oMatchesSelector && element.oMatchesSelector(rule.selectorText)) || 
+						if ((element.mozMatchesSelector && element.mozMatchesSelector(rule.selectorText)) ||
+							(element.msMatchesSelector && element.msMatchesSelector(rule.selectorText)) ||
+							(element.oMatchesSelector && element.oMatchesSelector(rule.selectorText)) ||
 							(element.webkitMatchesSelector && element.webkitMatchesSelector(rule.selectorText))
 						) {
 							// push the rule to the results set
@@ -152,7 +152,7 @@
 				return sortBySpecificity(element, result);
 			};
 	}
-}());	
+}());
 /*!
  * A polyfill for requestAnimationFrame, based on
  * http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -534,7 +534,7 @@
 		if (!args) {
 			return;
 		}
-		if (typeof args !== 'Array') {
+		if (!(args instanceof Array)) {
 			args = [args];
 		}
 
