@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Fix array-detection of arguments in `objectFill.init (#10) thanks to [@xax](https://github.com/xax)
 
 ### 0.3.3 (May, 27th, 2014)
 * Extended fix for Firefox (#5)
