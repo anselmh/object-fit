@@ -344,7 +344,7 @@
 		if (!args) {
 			return;
 		}
-		if (typeof args !== 'Array') {
+		if (!(args instanceof Array)) {
 			args = [args];
 		}
 
