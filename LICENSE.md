@@ -1,4 +1,4 @@
-Copyright (c) 2013 Anselm Hannemann, http://helloanselm.com/
+Copyright (c) 2013-2014 Anselm Hannemann, http://helloanselm.com/
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

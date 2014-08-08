@@ -194,7 +194,7 @@
  *
  * @author: Anselm Hannemann <hello@anselm-hannemann.com>
  * @author: Christian "Schepp" Schaefer <schaepp@gmx.de>
- * @version: 0.3.0
+ * @version: 0.3.4
  *
  */
 
