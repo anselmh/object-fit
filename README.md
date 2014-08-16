@@ -1,17 +1,17 @@
 # Polyfill for CSS `object-fit` property
 
-This is a headless polyfill for the CSS object-fit property which defines the sizing mode for content images (similar to background-size for CSS background sources).
+This is a headless polyfill for the CSS `object-fit` property which defines the sizing mode for content images (similar to background-size for CSS background sources).
 
 ## The Webstandard
 
-The Specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property scales the image to fit in a certain way into a defined area, e.g.:
+The specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property scales the image to fit in a certain way into a defined area, e.g:
 
 	img {
 		width: 100%; // dimensions are mandatory
 		height: 35em; // dimensions are mandatory
 
 		object-fit: cover;
-		overflow: hidden; // Cuts off the parts of the image poking out 
+		overflow: hidden; // Cuts off the parts of the image poking out
 	}
 
 Normally, the image would be stretched to the specified dimensions but due to the usage of the CSS property `object-fit: cover;` the image now is scaled proportionally, until every pixel of the defined area is covered by parts of it. In the case of cover this means that parts of the image will overlap the given area.
@@ -31,9 +31,10 @@ The polyfill uses a feature detection method to see if object-fit is supported. 
 
 ## Browser Support
 
-This polyfill works in all major browsers as well as in IE8+.
+This polyfill works in all major browsers as well as in IE8+. Find out [which browsers support `object-fit` natively](http://caniuse.com/object-fit).
 
--  Google Chrome  |  yes  |  (from v31 natively via experimental flag)
+-  Browser  |  polyfill?  |  natively?
+-  Google Chrome  |  yes  |  v31+
 -  Opera  |  14+  |  (from v18 natively via experimental flag)
 -  Firefox  |  4+  |  (vote for [this bug](https://bugzilla.mozilla.org/show_bug.cgi?id=624647))
 -  Internet Explorer  |  8+  |
@@ -59,7 +60,7 @@ You can find sample implementations in our [test directory](https://github.com/a
 ## DOM watching capabilities
 
 In browsers greater IE8 the polyfill uses DOM Mutation Events or Mutation Observers (depending on what's available) to detect the injection of further images matching the defined selector. This means that it will also apply itself to any images that you append to the DOM at any later point. And it will detach itself from images that you remove from the DOM. Since this feature is sort of complicated to craft in a rock solid way, you might look out for unexpected behaviors.
- 
+
 
 ----
 
