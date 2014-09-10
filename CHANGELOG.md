@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Added correct path for 'main'
 
 ### 0.3.4 (August, 8th, 2014)
 * Fix array-detection of arguments in `objectFill.init (#10) thanks to [@xax](https://github.com/xax)
