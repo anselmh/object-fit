@@ -61,6 +61,16 @@ You can find sample implementations in our [test directory](https://github.com/a
 
 In browsers greater IE8 the polyfill uses DOM Mutation Events or Mutation Observers (depending on what's available) to detect the injection of further images matching the defined selector. This means that it will also apply itself to any images that you append to the DOM at any later point. And it will detach itself from images that you remove from the DOM. Since this feature is sort of complicated to craft in a rock solid way, you might look out for unexpected behaviors.
 
+## Security / Mixed Content Issues and 3rd Party CSS
+
+If you use any third party CSS or mixed content on your website (Webfonts from a service, a CDN, or similar), the polyfill might not work as expected.
+You can still use the polyfill but then need to set some options regarding [CSP](http://content-security-policy.com/):
+
+For example you need to set the header to:
+
+	'Access-Control-Allow-Origin: *'
+
+and then add this attribute `crossorigin="use-credentials"` to your CSS `link` element. This should fix [the issue](https://github.com/anselmh/object-fit/issues/7).
 
 ----
 
