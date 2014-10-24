@@ -1,6 +1,12 @@
 # Changelog
 
 ### HEAD
+
+* Fixed a few minor code issues
+* Update polyfill.rAF.js to not include moz prefix anymore
+* Minor update on the getMatchedCSSRule.js
+* Re-indented the files, stick to code style
+* Use utf-8 in test html
 * Added correct path for 'main'
 
 ### 0.3.4 (August, 8th, 2014)

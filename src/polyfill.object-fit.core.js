@@ -15,7 +15,7 @@
 	// Storage variable
 	var objectFit = {};
 
-	objectFit._debug = false;
+	objectFit._debug = true;
 
 	objectFit.observer = null;
 
