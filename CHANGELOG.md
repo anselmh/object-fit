@@ -2,6 +2,9 @@
 
 ### HEAD
 
+### 0.3.6 (November, 25th, 2014)
+* Remove unnneeded postinstall script in npm (#14).
+
 ### 0.3.5 (October, 24th, 2014)
 * Fixed a few minor code issues
 * Update polyfill.rAF.js to not include moz prefix anymore
