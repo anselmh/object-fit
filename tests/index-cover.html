@@ -24,9 +24,11 @@
 	<script src="../dist/polyfill.object-fit.js"></script>
 	<script>
 		// Call polyfill to fit in images
-		objectFit.polyfill({
-			selector: 'img',
-			fittype: 'cover'
+		document.addEventListener('DOMContentLoaded', function () {
+			objectFit.polyfill({
+				selector: 'img',
+				fittype: 'cover'
+			});
 		});
 	</script>
 </body>
