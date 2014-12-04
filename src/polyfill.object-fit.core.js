@@ -7,15 +7,13 @@
  * @version: 0.3.4
  *
  */
+'use strict';
 
 (function (global) {
-
-	'use strict';
-
 	// Storage variable
 	var objectFit = {};
 
-	objectFit._debug = true;
+	objectFit._debug = false;
 
 	objectFit.observer = null;
 
@@ -84,7 +82,9 @@
 		if (rules.length) {
 			// iterate the rules backwards
 			// rules are ordered by priority, highest last
-			for (var i = rules.length; i --> 0;){
+			var i = rules.length;
+
+			for (; i--;) {
 				var r = rules[i];
 
 				var important = r.style.getPropertyPriority(property);
@@ -399,5 +399,4 @@
 	} else if (typeof global === 'object' && typeof global.document === 'object') {
 		global.objectFit = objectFit;
 	}
-
 }(window));
