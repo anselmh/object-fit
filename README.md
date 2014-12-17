@@ -33,11 +33,12 @@ The polyfill uses a feature detection method to see if object-fit is supported. 
 
 This polyfill works in all major browsers as well as in IE8+. Find out [which browsers support `object-fit` natively](http://caniuse.com/object-fit).
 
--  Browser  |  polyfill?  |  natively?
--  Google Chrome  |  yes  |  v31+
--  Opera  |  14+  |  (from v18 natively via experimental flag)
--  Firefox  |  4+ (#13)  |  v37+
--  Internet Explorer  |  8+  |
+| Browser  |  polyfill?  |  natively? |
+|----------|-------------|------------|
+| Google Chrome | yes | v31+ |
+| Opera | 14+ | v18+ via experimental flag |
+| Firefox | 4+ (#13) | v37+ |
+| Internet Explorer | 8+ | - |
 
 ## Setup / Usage
 
