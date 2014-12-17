@@ -64,6 +64,11 @@ Then include the CSS file [`polyfill.object-fit.css`](https://github.com/anselmh
 
 You can find sample implementations in our [test directory](https://github.com/anselmh/object-fit/tree/master/tests).
 
+
+## Testing
+
+Due to CSP restrictions and our CSS parser there’s no way to test this polyfill from a filesystem. You need to set up a local server that serves from root directory. Calling `http://localhost:8000/tests/index-cover.html` should work then. `php -S localhost:8000` for example would start a local PHP server on your current directory.
+
 ## DOM watching capabilities
 
 In browsers greater IE8 the polyfill uses DOM Mutation Events or Mutation Observers (depending on what's available) to detect the injection of further images matching the defined selector. This means that it will also apply itself to any images that you append to the DOM at any later point. And it will detach itself from images that you remove from the DOM. Since this feature is sort of complicated to craft in a rock solid way, you might look out for unexpected behaviors.
