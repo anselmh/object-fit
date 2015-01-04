@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 				jshintrc: '.jshintrc'
 			}
 		},
-		
+
 		concat: {
 			csss: {
 				src: 'src/polyfill.object-fit.css',
