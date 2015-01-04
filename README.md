@@ -50,7 +50,7 @@ or set up via npm
 
 	$ npm install --save object-fit
 
-The `--safe` flag is used to store the package dependency in the package.json so it can be automatically fetched next time using `npm install`. Use `--save-dev` to use it only as development dependency (but only do if you are sure you know what you do).
+The `--save` flag is used to store the package dependency in the package.json so it can be automatically fetched next time using `npm install`. Use `--save-dev` to use it only as development dependency (but only do if you are sure you know what you do).
 
 Or set up manually by grabbing the [download from GitHub](https://github.com/anselmh/object-fit/releases).
 Then include the CSS file [`polyfill.object-fit.css`](https://github.com/anselmh/object-fit/blob/master/dist/polyfill.object-fit.css) in your HTML `<head>`, the JavaScript file [`polyfill.object-fit.min.js`](https://github.com/anselmh/object-fit/blob/master/dist/polyfill.object-fit.min.js) at the bottom of your HTML `<body>`. Right behind the JavaScript file reference you now need to call the polyfill:
