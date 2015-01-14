@@ -102,19 +102,20 @@
 			return rules.sort(compareSpecificity);
 		};
 
-		// Find correct matchesSelector impl
+		// Find correct .matches() implementation
 		var matchesSelector = function (element, selector) {
 			var matcher;
 
 			if (element.matches) {
-				return element.matches(selector);
+				return element.matches(selector); // Firefox 34+, Chrome 34+, Safari 7.1+
 			}
 			else if (element.mozMatchesSelector) {
-				return element.mozMatchesSelector(selector);
+				return element.mozMatchesSelector(selector); // Firefox 3.6 - 33
 			} else if (element.msMatchesSelector) {
-				return element.msMatchesSelector(selector);
+				return element.msMatchesSelector(selector); // IE 9+
 			}
 			else {
+				// IE8
 				matcher = function (selector) {
 					var i = 0;
 					var matches = document.querySelectorAll(selector);
@@ -127,9 +128,13 @@
 		};
 
 		window.getMatchedCSSRules = function (element) {
-			var style_sheets, sheet, sheet_media,
-				rules, rule,
-				result = [];
+			var style_sheets;
+			var sheet;
+			var sheet_media;
+			var rules;
+			var rule;
+			var result = [];
+
 			// get stylesheets and convert to a regular Array
 			style_sheets = toArray(window.document.styleSheets);
 

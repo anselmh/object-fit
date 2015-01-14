@@ -10,6 +10,27 @@ module.exports = function (grunt) {
 			'<%= grunt.template.today("yyyy-mm-dd") %> */'
 		},
 
+		requirejs: {
+			compile: {
+				options: {
+					mainConfigFile: 'src/config.js',
+					include: ['../node_modules/requirejs/require'],
+					out: 'dist/polyfill.object-fit.js',
+
+					// Wrap in IIFE
+					wrap: true,
+
+					// Source Maps
+					generateSourceMaps: true,
+
+					// Do not preserve license comments when working with source maps, incompatible.
+					preserveLicenseComments: false,
+
+					optimize: 'uglify2'
+				}
+			}
+		},
+
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -20,14 +41,19 @@ module.exports = function (grunt) {
 			}
 		},
 
+		// JavaScript files
+		js: {
+			files: [
+				'src/*.js'
+			],
+			config: 'src/config.js',
+			dest: 'dist/polyfill.object-fit.js'
+		},
+
 		concat: {
-			csss: {
+			css: {
 				src: 'src/polyfill.object-fit.css',
 				dest: 'dist/polyfill.object-fit.css'
-			},
-			js: {
-				src: ['src/polyfill.getMatchedCSSRules.js', 'src/polyfill.rAF.js', 'src/polyfill.object-fit.core.js'],
-				dest: 'dist/polyfill.object-fit.js'
 			}
 		},
 
@@ -63,8 +89,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// Default task
-	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'requirejs', 'concat', 'uglify']);
 
 };

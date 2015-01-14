@@ -18,11 +18,14 @@
   "engines": {
     "node": ">=0.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "requirejs": "^2.1.15"
+  },
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-concat": "~0.5.0",
     "grunt-contrib-jshint": "0.10.0",
+    "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-uglify": "0.5.1",
     "grunt-contrib-watch": "0.6.1"
   },

@@ -7,13 +7,23 @@
  * @version: 0.3.4
  *
  */
-'use strict';
 
-(function (global) {
+require([
+	// Require the modules
+	'plugins/polyfill.rAF',
+	'plugins/polyfill.dom-console',
+	'plugins/polyfill.css-syntax',
+	'plugins/polyfill.css-style',
+	'plugins/polyfill.css-cascade',
+	'plugins/polyfill.dom-events',
+	'plugins/polyfill.dom-query-selector-live',
+], function (cssStyle) {
+	'use strict';
+
 	// Storage variable
 	var objectFit = {};
 
-	objectFit._debug = false;
+	objectFit._debug = true;
 
 	objectFit.observer = null;
 
@@ -32,6 +42,7 @@
 		var newelement = element.cloneNode(true);
 		var styles = {};
 		var iframe = document.createElement('iframe');
+
 		document.body.appendChild(iframe);
 		iframe.contentWindow.document.open();
 		iframe.contentWindow.document.write('<body></body>');
@@ -43,6 +54,7 @@
 
 		for (var property in defaultComputedStyle) {
 			var value = defaultComputedStyle.getPropertyValue ? defaultComputedStyle.getPropertyValue(property) : defaultComputedStyle[property];
+
 			if (value !== null) {
 				switch (property) {
 					default:
@@ -77,7 +89,7 @@
 		}
 
 		// get matched rules
-		var rules = window.getMatchedCSSRules(element);
+		var rules = cssStyle.currentStyleOf(element);
 
 		if (rules.length) {
 			// iterate the rules backwards
@@ -178,7 +190,7 @@
 		for (property in replacedElementStyles) {
 			switch (property) {
 				default:
-					value = objectFit.getMatchedStyle(replacedElement,property);
+					value = objectFit.getMatchedStyle(replacedElement, property);
 					if (value !== null && value !== '') {
 						if (objectFit._debug && window.console) {
 							console.log(property + ': ' + value);
@@ -357,7 +369,7 @@
 	};
 
 	objectFit.polyfill = function(args) {
-		if('objectFit' in document.documentElement.style === false) {
+		// if('objectFit' in document.documentElement.style === false) {
 			if (objectFit._debug && window.console) {
 				console.log('object-fit not natively supported');
 			}
@@ -376,11 +388,11 @@
 					});
 				}
 			}
-		} else {
-			if (objectFit._debug && window.console) {
-				console.log('object-fit natively supported');
-			}
-		}
+		// } else {
+			// if (objectFit._debug && window.console) {
+			// 	console.log('object-fit natively supported');
+			// }
+		// }
 	};
 
 	/*
@@ -399,4 +411,4 @@
 	} else if (typeof global === 'object' && typeof global.document === 'object') {
 		global.objectFit = objectFit;
 	}
-}(window));
+});
