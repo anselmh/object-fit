@@ -33,11 +33,12 @@ The polyfill uses a feature detection method to see if object-fit is supported. 
 
 This polyfill works in all major browsers as well as in IE8+. Find out [which browsers support `object-fit` natively](http://caniuse.com/object-fit).
 
--  Browser  |  polyfill?  |  natively?
--  Google Chrome  |  yes  |  v31+
--  Opera  |  14+  |  (from v18 natively via experimental flag)
--  Firefox  |  4+ (#13)  |  v37+
--  Internet Explorer  |  8+  |
+| Browser  |  polyfill?  |  natively? |
+|----------|-------------|------------|
+| Google Chrome | yes | v31+ |
+| Opera | 14+ | v18+ via experimental flag |
+| Firefox | 4+ (#13) | v37+ |
+| Internet Explorer | 8+ | - |
 
 ## Setup / Usage
 
@@ -49,7 +50,7 @@ or set up via npm
 
 	$ npm install --save object-fit
 
-The `--safe` flag is used to store the package dependency in the package.json so it can be automatically fetched next time using `npm install`. Use `--save-dev` to use it only as development dependency (but only do if you are sure you know what you do).
+The `--save` flag is used to store the package dependency in the package.json so it can be automatically fetched next time using `npm install`. Use `--save-dev` to use it only as development dependency (but only do if you are sure you know what you do).
 
 Or set up manually by grabbing the [download from GitHub](https://github.com/anselmh/object-fit/releases).
 Then include the CSS file [`polyfill.object-fit.css`](https://github.com/anselmh/object-fit/blob/master/dist/polyfill.object-fit.css) in your HTML `<head>`, the JavaScript file [`polyfill.object-fit.min.js`](https://github.com/anselmh/object-fit/blob/master/dist/polyfill.object-fit.min.js) at the bottom of your HTML `<body>`. Right behind the JavaScript file reference you now need to call the polyfill:
@@ -62,6 +63,11 @@ Then include the CSS file [`polyfill.object-fit.css`](https://github.com/anselmh
 	</script>
 
 You can find sample implementations in our [test directory](https://github.com/anselmh/object-fit/tree/master/tests).
+
+
+## Testing
+
+Due to CSP restrictions and our CSS parser there’s no way to test this polyfill from a filesystem. You need to set up a local server that serves from root directory. Calling `http://localhost:8000/tests/index-cover.html` should work then. `php -S localhost:8000` for example would start a local PHP server on your current directory.
 
 ## DOM watching capabilities
 

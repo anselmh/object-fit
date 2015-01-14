@@ -1,7 +1,10 @@
 {
   "name": "object-fit",
   "version": "0.3.6",
-  "main": "dist/polyfill.object-fit.js",
+  "main": [
+    "dist/polyfill.object-fit.js",
+    "dist/polyfill.object-fit.css"
+  ],
   "ignore": [
     "**/.*",
     "node_modules",
