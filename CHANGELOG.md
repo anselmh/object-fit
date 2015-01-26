@@ -2,6 +2,11 @@
 
 ### HEAD
 
+### 0.3.7 (January, 26th, 2015)
+* Update README with latest browser developments
+* Don’t test for `matchMedia` when it isn’t supported (#22)
+* Update usage of indexed style properties regarding [latest Firefox implementation](https://bugzilla.mozilla.org/show_bug.cgi?id=958887)
+
 ### 0.3.6 (November, 25th, 2014)
 * Remove unnneeded postinstall script in npm (#14).
 
