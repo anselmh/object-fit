@@ -44,8 +44,14 @@
 		if (stylesheet.disabled) {
 			return [];
 		}
+
+		if (!window.matchMedia) {
+			if (sheet_media && sheet_media.length) {
+				return [];
+			}
+		}
 		// if this sheet's media is specified and doesn't match the viewport then skip it
-		if (sheet_media && sheet_media.length && ! window.matchMedia(sheet_media).matches) {
+		else if (sheet_media && sheet_media.length && ! window.matchMedia(sheet_media).matches) {
 			return [];
 		}
 

@@ -44,8 +44,14 @@
 		if (stylesheet.disabled) {
 			return [];
 		}
+
+		if (!window.matchMedia) {
+			if (sheet_media && sheet_media.length) {
+				return [];
+			}
+		}
 		// if this sheet's media is specified and doesn't match the viewport then skip it
-		if (sheet_media && sheet_media.length && ! window.matchMedia(sheet_media).matches) {
+		else if (sheet_media && sheet_media.length && ! window.matchMedia(sheet_media).matches) {
 			return [];
 		}
 
@@ -258,7 +264,7 @@
 	// Storage variable
 	var objectFit = {};
 
-	objectFit._debug = true;
+	objectFit._debug = false;
 
 	objectFit.observer = null;
 
@@ -443,15 +449,16 @@
 			switch (property) {
 				default:
 					value = replacedElementDefaultStyles[property];
+
 					if (objectFit._debug && window.console && value !== '') {
 						console.log(property + ': ' + value);
 
-						if (!replacedElement.style[property]) {
-							console.log('Indexed style properties not supported in: ' + window.navigator.userAgent);
+						if (replacedElement.style[property] === undefined) {
+							console.log('Indexed style properties (`' + property + '`) not supported in: ' + window.navigator.userAgent);
 						}
 					}
 					if (replacedElement.style[property]) {
-						replacedElement.style[property] = value;
+						replacedElement.style[property] = value; // should work in Firefox 35+ and all other browsers
 					} else {
 						replacedElement.style.property = value;
 					}
