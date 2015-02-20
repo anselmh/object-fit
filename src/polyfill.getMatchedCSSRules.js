@@ -38,9 +38,9 @@
 
 	// get host of stylesheet
 	var getHost = function(href) {
-    var l = document.createElement("a");
-    l.href = href;
-    return l.hostname;
+		var l = document.createElement("a");
+		l.href = href;
+		return l.hostname;
 	}
 
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
