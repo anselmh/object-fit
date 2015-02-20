@@ -36,9 +36,22 @@
 		return items;
 	};
 
+	// get host of stylesheet
+	var getHost = function(href) {
+    var l = document.createElement("a");
+    l.href = href;
+    return l.hostname;
+	}
+
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
 	var getSheetRules = function (stylesheet) {
 		var sheet_media = stylesheet.media && stylesheet.media.mediaText;
+		var sheet_host = getHost(stylesheet.href);
+
+		// if this sheet is cross-origin and option is set skip it
+		if ((sheet_host != window.location.hostname)) { // && avoidExternalStylesheets)  { 
+			return [];
+		}
 
 		// if this sheet is disabled skip it
 		if (stylesheet.disabled) {
