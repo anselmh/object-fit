@@ -40,7 +40,7 @@
 	var getCSSHost = function (href) {
 		var fakeLinkOfSheet = document.createElement('a');
 		fakeLinkOfSheet.href = href;
-		return fakeLinkOfSheet.hostname;
+		return fakeLinkOfSheet.host;
 	};
 
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
@@ -49,7 +49,7 @@
 		var sheetHost = getCSSHost(stylesheet.href);
 
 		// if this sheet is cross-origin and option is set skip it
-		if ((sheetHost !== window.location.hostname)) { // && avoidExternalStylesheets)  { 
+		if ((sheetHost !== window.location.host)) { // && avoidExternalStylesheets)  { 
 			return [];
 		}
 
