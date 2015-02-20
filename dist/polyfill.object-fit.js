@@ -12,7 +12,7 @@
 
 (function () {
 	// polyfill window.getMatchedCSSRules() in FireFox 6+
-	if (typeof window.getMatchedCSSRules == 'function') {
+	if (typeof window.getMatchedCSSRules === 'function') {
 		return;
 	}
 
@@ -37,19 +37,19 @@
 	};
 
 	// get host of stylesheet
-	var getHost = function(href) {
-		var l = document.createElement("a");
-		l.href = href;
-		return l.hostname;
-	}
+	var getCSSHost = function (href) {
+		var fakeLinkOfSheet = document.createElement('a');
+		fakeLinkOfSheet.href = href;
+		return fakeLinkOfSheet.hostname;
+	};
 
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
 	var getSheetRules = function (stylesheet) {
-		var sheet_media = stylesheet.media && stylesheet.media.mediaText;
-		var sheet_host = getHost(stylesheet.href);
+		var sheetMedia = stylesheet.media && stylesheet.media.mediaText;
+		var sheetHost = getCSSHost(stylesheet.href);
 
 		// if this sheet is cross-origin and option is set skip it
-		if ((sheet_host != window.location.hostname)) { // && avoidExternalStylesheets)  { 
+		if ((sheetHost !== window.location.hostname)) { // && avoidExternalStylesheets)  { 
 			return [];
 		}
 
@@ -59,12 +59,12 @@
 		}
 
 		if (!window.matchMedia) {
-			if (sheet_media && sheet_media.length) {
+			if (sheetMedia && sheetMedia.length) {
 				return [];
 			}
 		}
 		// if this sheet's media is specified and doesn't match the viewport then skip it
-		else if (sheet_media && sheet_media.length && ! window.matchMedia(sheet_media).matches) {
+		else if (sheetMedia && sheetMedia.length && ! window.matchMedia(sheetMedia).matches) {
 			return [];
 		}
 
@@ -86,7 +86,7 @@
 		var match;
 
 		//TODO: clean the ':not' part since the last ELEMENT_RE will pick it up
-		while (part = parts.shift(), typeof part == 'string') {
+		while (part = parts.shift(), typeof part === 'string') {
 			// find all pseudo-elements
 			match = _find(part, PSEUDO_ELEMENTS_RE);
 			score[2] = match;
@@ -120,8 +120,8 @@
 	};
 
 	// returns the heights possible specificity score an element can get from a give rule's selectorText
-	var getSpecificityScore = function (element, selector_text) {
-		var selectors = selector_text.split(','),
+	var getSpecificityScore = function (element, selectorText) {
+		var selectors = selectorText.split(','),
 			selector, score, result = 0;
 
 		while (selector = selectors.shift()) {
@@ -176,19 +176,18 @@
 	//TODO: not supporting 2nd argument for selecting pseudo elements
 	//TODO: not supporting 3rd argument for checking author style sheets only
 	window.getMatchedCSSRules = function (element) {  /*, pseudo, author_only*/
-		var style_sheets;
-		var sheet_media;
+		var styleSheets;
 		var result = [];
 		var sheet;
 		var rules;
 		var rule;
 
 		// get stylesheets and convert to a regular Array
-		style_sheets = toArray(window.document.styleSheets);
+		styleSheets = toArray(window.document.styleSheets);
 
 		// assuming the browser hands us stylesheets in order of appearance
 		// we iterate them from the beginning to follow proper cascade order
-		while (sheet = style_sheets.shift()) {
+		while (sheet = styleSheets.shift()) {
 			// get the style rules of this sheet
 			rules = getSheetRules(sheet);
 
@@ -206,7 +205,7 @@
 					// insert the contained rules of this media rule to the beginning of this stylesheet's rules
 					rules = getSheetRules(rule).concat(rules);
 					// and skip it
-					continue
+					continue;
 				}
 
 				// check if this element matches this rule's selector
