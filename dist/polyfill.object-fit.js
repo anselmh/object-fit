@@ -46,12 +46,17 @@
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
 	var getSheetRules = function (stylesheet) {
 		var sheetMedia = stylesheet.media && stylesheet.media.mediaText;
-		var sheetHost = getCSSHost(stylesheet.href);
+		var sheetHost;
 
 		// if this sheet is cross-origin and option is set skip it
-		if ((sheetHost !== window.location.host)) { // && avoidExternalStylesheets)  { 
-			return [];
+		if (objectFit.disableCrossDomain == 'true') {
+			sheetHost = getCSSHost(stylesheet.href);
+
+			if ((sheetHost !== window.location.host)) {
+				return [];
+			}
 		}
+
 
 		// if this sheet is disabled skip it
 		if (stylesheet.disabled) {
@@ -280,6 +285,8 @@
 
 	objectFit.observer = null;
 
+	objectFit.disableCrossDomain = 'false';
+
 	objectFit.getComputedStyle = function(element, context) {
 		context = context || window;
 
@@ -403,7 +410,13 @@
 		if (!args.selector || !args.replacedElements) {
 			return;
 		}
+
+		// Set option objectFit.disableCrossDomain
+		objectFit.disableCrossDomain = args.disableCrossDomain || 'false';
+
+		// Set option fit-type
 		args.fittype = args.fittype || 'none';
+
 		switch (args.fittype) {
 			default:
 				return;
@@ -415,7 +428,9 @@
 			break;
 		}
 
+		// Set option replacedElements
 		var replacedElements = args.replacedElements;
+
 		if(!replacedElements.length) {
 			return;
 		}
@@ -624,7 +639,7 @@
 				console.log('object-fit not natively supported');
 			}
 			// If the library is loaded after document onload event
-			if(document.readyState === 'complete') {
+			if (document.readyState === 'complete') {
 				objectFit.init(args);
 			} else {
 				// Otherwise attach event listeners

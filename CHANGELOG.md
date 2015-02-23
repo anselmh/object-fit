@@ -1,6 +1,7 @@
 # Changelog
 
 ### HEAD
+* Add option `disableCrossDomain: 'true'` to ignore external stylesheets (CORS/CSP) (#7, #15)
 
 ### 0.3.7 (January, 26th, 2015)
 * Update README with latest browser developments

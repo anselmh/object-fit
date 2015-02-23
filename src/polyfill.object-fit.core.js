@@ -19,6 +19,8 @@
 
 	objectFit.observer = null;
 
+	objectFit.disableCrossDomain = 'false';
+
 	objectFit.getComputedStyle = function(element, context) {
 		context = context || window;
 
@@ -142,7 +144,13 @@
 		if (!args.selector || !args.replacedElements) {
 			return;
 		}
+
+		// Set option objectFit.disableCrossDomain
+		objectFit.disableCrossDomain = args.disableCrossDomain || 'false';
+
+		// Set option fit-type
 		args.fittype = args.fittype || 'none';
+
 		switch (args.fittype) {
 			default:
 				return;
@@ -154,7 +162,9 @@
 			break;
 		}
 
+		// Set option replacedElements
 		var replacedElements = args.replacedElements;
+
 		if(!replacedElements.length) {
 			return;
 		}
@@ -363,7 +373,7 @@
 				console.log('object-fit not natively supported');
 			}
 			// If the library is loaded after document onload event
-			if(document.readyState === 'complete') {
+			if (document.readyState === 'complete') {
 				objectFit.init(args);
 			} else {
 				// Otherwise attach event listeners

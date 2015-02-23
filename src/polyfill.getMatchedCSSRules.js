@@ -46,12 +46,17 @@
 	// handles extraction of `cssRules` as an `Array` from a stylesheet or something that behaves the same
 	var getSheetRules = function (stylesheet) {
 		var sheetMedia = stylesheet.media && stylesheet.media.mediaText;
-		var sheetHost = getCSSHost(stylesheet.href);
+		var sheetHost;
 
 		// if this sheet is cross-origin and option is set skip it
-		if ((sheetHost !== window.location.host)) { // && avoidExternalStylesheets)  { 
-			return [];
+		if (objectFit.disableCrossDomain == 'true') {
+			sheetHost = getCSSHost(stylesheet.href);
+
+			if ((sheetHost !== window.location.host)) {
+				return [];
+			}
 		}
+
 
 		// if this sheet is disabled skip it
 		if (stylesheet.disabled) {
