@@ -83,7 +83,17 @@ For example you need to set the header to:
 
 	'Access-Control-Allow-Origin: *'
 
-and then add this attribute `crossorigin="use-credentials"` to your CSS `link` element. This should fix [the issue](https://github.com/anselmh/object-fit/issues/7).
+This should fix [the issue](https://github.com/anselmh/object-fit/issues/7). If you also need to support credentials, [you can’t use `*`](#25) but need the server reply with two headers (server needs also to reply with `Access-Control-Allow-Credentials: true`), one of which includes the origin in question.
+
+In case you can’t alter the CSP / CORS settings of the server in question, you can disable parsing external CSS files in the config of the call:
+
+	<script>
+		objectFit.polyfill({
+			selector: 'img',
+			fittype: 'cover',
+			disableCrossDomain: 'true'
+		});
+	</script>
 
 ----
 
