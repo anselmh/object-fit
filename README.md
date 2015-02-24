@@ -85,7 +85,7 @@ For example you need to set the header to:
 
 This should fix [the issue](https://github.com/anselmh/object-fit/issues/7). If you also need to support credentials, [you can’t use `*`](#25) but need the server reply with two headers (server needs also to reply with `Access-Control-Allow-Credentials: true`), one of which includes the origin in question.
 
-It is recommended to add the attribute `crossorigin="use-credentials"` to your CSS `link` element that is called from the external resource to indicate what type of CORS the server should reply with.
+It is recommended to add the attribute `crossorigin=""` to your CSS `link` element that is called from the external resource to indicate what type of CORS the server should reply with.
 
 In case you can’t alter the CSP / CORS settings of the server in question, you can disable parsing external CSS files in the config of the call:
 

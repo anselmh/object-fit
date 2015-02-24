@@ -27,9 +27,10 @@
 	// convert an array-like object to array
 	var toArray = function (list) {
 		var items = [];
-		var i;
+		var i = 0;
+		var listLength = list.length;
 
-		for (i in list) {
+		for (; i < listLength; i++) {
 			items.push(list[i]);
 		}
 
@@ -39,7 +40,9 @@
 	// get host of stylesheet
 	var getCSSHost = function (href) {
 		var fakeLinkOfSheet = document.createElement('a');
+
 		fakeLinkOfSheet.href = href;
+
 		return fakeLinkOfSheet.host;
 	};
 
@@ -148,19 +151,19 @@
 		return rules.sort(compareSpecificity);
 	};
 
-	// Find correct matchesSelector implementation
-	var _matchesSelector = function (element, selector) {
-		if (!element.matches || !element.matchesSelector || !element.webkitMatchesSelector || !element.mozMatchesSelector || !element.msMatchesSelector) {
-			var matches = (element.document || element.ownerDocument).querySelectorAll(selector);
-			var i = 0;
+	var customMatchesSelector = function (element, selector) {
+		var matches = (element.document || element.ownerDocument).querySelectorAll(selector);
+		var i = 0;
 
-			while (matches[i] && matches[i] !== element) {
-				i++;
-			}
-
-			matches[i] ? true : false;
+		while (matches[i] && matches[i] !== element) {
+			i++;
 		}
 
+		return matches[i] ? true : false;
+	};
+
+	// Find correct matchesSelector implementation
+	var _matchesSelector = function (element, selector) {
 		var matcher = function (selector) {
 			if (element.matches) {
 				return element.matches(selector);
@@ -172,6 +175,8 @@
 				return element.webkitMatchesSelector(selector);
 			} else if (element.msMatchesSelector) {
 				return element.msMatchesSelector(selector);
+			} else {
+				return customMatchesSelector(element, selector);
 			}
 		};
 

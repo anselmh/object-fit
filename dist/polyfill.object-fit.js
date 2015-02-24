@@ -27,9 +27,10 @@
 	// convert an array-like object to array
 	var toArray = function (list) {
 		var items = [];
-		var i;
+		var i = 0;
+		var listLength = list.length;
 
-		for (i in list) {
+		for (; i < listLength; i++) {
 			items.push(list[i]);
 		}
 
@@ -39,7 +40,9 @@
 	// get host of stylesheet
 	var getCSSHost = function (href) {
 		var fakeLinkOfSheet = document.createElement('a');
+
 		fakeLinkOfSheet.href = href;
+
 		return fakeLinkOfSheet.host;
 	};
 
@@ -148,19 +151,19 @@
 		return rules.sort(compareSpecificity);
 	};
 
-	// Find correct matchesSelector implementation
-	var _matchesSelector = function (element, selector) {
-		if (!element.matches || !element.matchesSelector || !element.webkitMatchesSelector || !element.mozMatchesSelector || !element.msMatchesSelector) {
-			var matches = (element.document || element.ownerDocument).querySelectorAll(selector);
-			var i = 0;
+	var customMatchesSelector = function (element, selector) {
+		var matches = (element.document || element.ownerDocument).querySelectorAll(selector);
+		var i = 0;
 
-			while (matches[i] && matches[i] !== element) {
-				i++;
-			}
-
-			matches[i] ? true : false;
+		while (matches[i] && matches[i] !== element) {
+			i++;
 		}
 
+		return matches[i] ? true : false;
+	};
+
+	// Find correct matchesSelector implementation
+	var _matchesSelector = function (element, selector) {
 		var matcher = function (selector) {
 			if (element.matches) {
 				return element.matches(selector);
@@ -172,6 +175,8 @@
 				return element.webkitMatchesSelector(selector);
 			} else if (element.msMatchesSelector) {
 				return element.msMatchesSelector(selector);
+			} else {
+				return customMatchesSelector(element, selector);
 			}
 		};
 
@@ -310,9 +315,16 @@
 
 		var defaultElement = iframe.contentWindow.document.querySelectorAll(element.nodeName.toLowerCase())[0];
 		var defaultComputedStyle = this.getComputedStyle(defaultElement, iframe.contentWindow);
+		var value;
+		var property;
 
-		for (var property in defaultComputedStyle) {
-			var value = defaultComputedStyle.getPropertyValue ? defaultComputedStyle.getPropertyValue(property) : defaultComputedStyle[property];
+		for (property in defaultComputedStyle) {
+			if (defaultComputedStyle.getPropertyValue === true) {
+				value = defaultComputedStyle.getPropertyValue(property);
+			} else {
+				value = defaultComputedStyle[property];
+			}
+
 			if (value !== null) {
 				switch (property) {
 					default:
@@ -348,14 +360,16 @@
 
 		// get matched rules
 		var rules = window.getMatchedCSSRules(element);
+		var i = rules.length;
+		var r;
+		var important;
 
-		if (rules.length) {
+		if (i) {
 			// iterate the rules backwards
 			// rules are ordered by priority, highest last
-			for (var i = rules.length; i --> 0;){
-				var r = rules[i];
-
-				var important = r.style.getPropertyPriority(property);
+			for (; i --> 0;) {
+				r = rules[i];
+				important = r.style.getPropertyPriority(property);
 
 				// if set, only reset if important
 				if (val === null || important) {
@@ -365,7 +379,6 @@
 					if (important) {
 						break;
 					}
-					//return val;
 				}
 			}
 		}
@@ -390,6 +403,7 @@
 				if (replacedElement.getAttribute('data-x-object-relation') !== 'wider') {
 					replacedElement.setAttribute('data-x-object-relation','wider');
 					replacedElement.className = 'x-object-fit-wider';
+
 					if (this._debug && window.console) {
 						console.log('x-object-fit-wider');
 					}
@@ -398,6 +412,7 @@
 				if (replacedElement.getAttribute('data-x-object-relation') !== 'taller') {
 					replacedElement.setAttribute('data-x-object-relation','taller');
 					replacedElement.className = 'x-object-fit-taller';
+
 					if (this._debug && window.console) {
 						console.log('x-object-fit-taller');
 					}
@@ -441,24 +456,26 @@
 	};
 
 	objectFit.processElement = function(replacedElement, args) {
-		var property, value;
-
+		var property;
+		var value;
 		var replacedElementStyles = objectFit.getComputedStyle(replacedElement);
 		var replacedElementDefaultStyles = objectFit.getDefaultComputedStyle(replacedElement);
-
 		var wrapperElement = document.createElement('x-object-fit');
 
 		if (objectFit._debug && window.console) {
 			console.log('Applying to WRAPPER-------------------------------------------------------');
 		}
+
 		for (property in replacedElementStyles) {
 			switch (property) {
 				default:
-					value = objectFit.getMatchedStyle(replacedElement,property);
+					value = objectFit.getMatchedStyle(replacedElement, property);
+
 					if (value !== null && value !== '') {
 						if (objectFit._debug && window.console) {
 							console.log(property + ': ' + value);
 						}
+
 						wrapperElement.style[property] = value;
 					}
 				break;
@@ -484,6 +501,7 @@
 							console.log('Indexed style properties (`' + property + '`) not supported in: ' + window.navigator.userAgent);
 						}
 					}
+
 					if (replacedElement.style[property]) {
 						replacedElement.style[property] = value; // should work in Firefox 35+ and all other browsers
 					} else {
@@ -504,7 +522,7 @@
 		objectFit.orientation(replacedElement);
 
 		var resizeTimer = null;
-		var resizeAction = function(){
+		var resizeAction = function () {
 			if (resizeTimer !== null) {
 				window.cancelAnimationFrame(resizeTimer);
 			}
@@ -531,9 +549,12 @@
 		}
 	};
 
-	objectFit.listen = function(args) {
-		var domInsertedAction = function(element){
-			for (var i = 0, argsLength = args.length; i < argsLength; i++) {
+	objectFit.listen = function (args) {
+		var domInsertedAction = function (element){
+			var i = 0;
+			var argsLength = args.length;
+
+			for (; i < argsLength; i++) {
 				if ((element.mozMatchesSelector && element.mozMatchesSelector(args[i].selector)) ||
 					(element.msMatchesSelector && element.msMatchesSelector(args[i].selector)) ||
 					(element.oMatchesSelector && element.oMatchesSelector(args[i].selector)) ||
@@ -541,6 +562,7 @@
 				) {
 					args[i].replacedElements = [element];
 					objectFit.process(args[i]);
+
 					if (objectFit._debug && window.console) {
 						console.log('Matching node inserted: ' + element.nodeName);
 					}
@@ -548,7 +570,7 @@
 			}
 		};
 
-		var domInsertedObserverFunction = function(element){
+		var domInsertedObserverFunction = function (element) {
 			objectFit.observer.disconnect();
 			domInsertedAction(element);
 			objectFit.observer.observe(document.documentElement, {
@@ -557,22 +579,23 @@
 			});
 		};
 
-		var domInsertedEventFunction = function(event){
+		var domInsertedEventFunction = function (event) {
 			window.removeEventListener('DOMNodeInserted', domInsertedEventFunction, false);
 			domInsertedAction(event.target);
 			window.addEventListener('DOMNodeInserted', domInsertedEventFunction, false);
 		};
 
-		var domRemovedAction = function(element){
+		var domRemovedAction = function (element) {
 			if (element.nodeName.toLowerCase() === 'x-object-fit') {
 				element.parentNode.removeChild(element);
+
 				if (objectFit._debug && window.console) {
 					console.log('Matching node removed: ' + element.nodeName);
 				}
 			}
 		};
 
-		var domRemovedObserverFunction = function(element){
+		var domRemovedObserverFunction = function (element) {
 			objectFit.observer.disconnect();
 			domRemovedAction(element);
 			objectFit.observer.observe(document.documentElement, {
@@ -581,7 +604,7 @@
 			});
 		};
 
-		var domRemovedEventFunction = function(event){
+		var domRemovedEventFunction = function (event) {
 			window.removeEventListener('DOMNodeRemoved', domRemovedEventFunction, false);
 			domRemovedAction(event.target.parentNode);
 			window.addEventListener('DOMNodeRemoved', domRemovedEventFunction, false);
@@ -591,6 +614,7 @@
 			if (objectFit._debug && window.console) {
 				console.log('DOM MutationObserver');
 			}
+
 			this.observer = new MutationObserver(function(mutations) {
 				mutations.forEach(function(mutation) {
 					if (mutation.addedNodes && mutation.addedNodes.length) {
@@ -604,6 +628,7 @@
 					}
 				});
 			});
+
 			this.observer.observe(document.documentElement, {
 				childList: true,
 				subtree: true
@@ -612,20 +637,25 @@
 			if (objectFit._debug && window.console) {
 				console.log('DOM Mutation Events');
 			}
+
 			window.addEventListener('DOMNodeInserted', domInsertedEventFunction, false);
 			window.addEventListener('DOMNodeRemoved', domRemovedEventFunction, false);
 		}
 	};
 
-	objectFit.init = function(args) {
+	objectFit.init = function (args) {
 		if (!args) {
 			return;
 		}
+
 		if (!(args instanceof Array)) {
 			args = [args];
 		}
 
-		for (var i = 0, argsLength = args.length; i < argsLength; i++) {
+		var i = 0;
+		var argsLength = args.length;
+
+		for (; i < argsLength; i++) {
 			args[i].replacedElements = document.querySelectorAll(args[i].selector);
 			this.process(args[i]);
 		}
@@ -633,11 +663,12 @@
 		this.listen(args);
 	};
 
-	objectFit.polyfill = function(args) {
+	objectFit.polyfill = function (args) {
 		if('objectFit' in document.documentElement.style === false) {
 			if (objectFit._debug && window.console) {
 				console.log('object-fit not natively supported');
 			}
+
 			// If the library is loaded after document onload event
 			if (document.readyState === 'complete') {
 				objectFit.init(args);
