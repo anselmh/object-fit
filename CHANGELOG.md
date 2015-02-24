@@ -2,6 +2,9 @@
 
 ### HEAD
 
+### 0.4.1 (February, 24th, 2015)
+* Optimize Performance (+28%) (#22)
+
 ### 0.4.0 (February, 23th, 2015)
 * Add option `disableCrossDomain: 'true'` to ignore external stylesheets (CORS/CSP) (#7, #15)
 
