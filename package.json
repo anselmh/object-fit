@@ -18,7 +18,9 @@
   "engines": {
     "node": ">=0.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "raf.js": "0.0.4"
+  },
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-contrib-concat": "~0.5.1",
