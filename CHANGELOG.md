@@ -2,7 +2,8 @@
 
 ### HEAD
 
-* Use [external rAF polyfill](https://github.com/ngryman/raf.js/blob/master/raf.js) via npm (#30)
+* Use external `element.closest()` polyfill (#30), small performance win
+* Use [external rAF polyfill](https://github.com/ngryman/raf.js) via npm (#30)
 
 ### 0.4.1 (February, 24th, 2015)
 * Optimize Performance (+28%) (#22)

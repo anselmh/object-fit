@@ -1,3 +1,41 @@
+/**
+ * This is a manual copy (1.0.2) of https://github.com/jonathantneal/closest
+ * as this is not available on npm
+ */
+
+(function (ELEMENT) {
+	ELEMENT.matches = ELEMENT.matches
+		|| ELEMENT.oMatchesSelector
+		|| ELEMENT.msMatchesSelector
+		|| ELEMENT.mozMatchesSelector
+		|| ELEMENT.webkitMatchesSelector
+		|| function (selector) {
+			var
+			element = this,
+			elements = (element.document || element.ownerDocument).querySelectorAll(selector),
+			index = 0;
+
+			while (elements[index] && elements[index] !== element) {
+				++index;
+			}
+
+			return elements[index] ? true : false;
+		};
+
+	ELEMENT.closest = ELEMENT.closest || function (selector) {
+		var node = this;
+
+		while (node) {
+			if (node.matches(selector)) {
+				break;
+			}
+			node = node.parentElement;
+		}
+
+		return node;
+	};
+}(Element.prototype));
+
 /*!
  * A polyfill for Webkit's window.getMatchedCSSRules, based on
  * https://gist.github.com/ydaniv/3033012
@@ -133,7 +171,7 @@
 			selector, score, result = 0;
 
 		while (selector = selectors.shift()) {
-			if (_matchesSelector(element, selector)) {
+			if (element.closest(selector)) {
 				score = calculateScore(selector);
 				result = score > result ? score : result;
 			}
@@ -149,38 +187,6 @@
 		};
 
 		return rules.sort(compareSpecificity);
-	};
-
-	var customMatchesSelector = function (element, selector) {
-		var matches = (element.document || element.ownerDocument).querySelectorAll(selector);
-		var i = 0;
-
-		while (matches[i] && matches[i] !== element) {
-			i++;
-		}
-
-		return matches[i] ? true : false;
-	};
-
-	// Find correct matchesSelector implementation
-	var _matchesSelector = function (element, selector) {
-		var matcher = function (selector) {
-			if (element.matches) {
-				return element.matches(selector);
-			} else if (element.matchesSelector) {
-				return element.matchesSelector(selector);
-			} else if (element.mozMatchesSelector) {
-				return element.mozMatchesSelector(selector);
-			} else if (element.webkitMatchesSelector) {
-				return element.webkitMatchesSelector(selector);
-			} else if (element.msMatchesSelector) {
-				return element.msMatchesSelector(selector);
-			} else {
-				return customMatchesSelector(element, selector);
-			}
-		};
-
-		return matcher(selector);
 	};
 
 	//TODO: not supporting 2nd argument for selecting pseudo elements
@@ -219,7 +225,7 @@
 				}
 
 				// check if this element matches this rule's selector
-				if (_matchesSelector(element, rule.selectorText)) {
+				if (element.closest(rule.selectorText)) {
 					// push the rule to the results set
 					result.push(rule);
 				}
@@ -230,44 +236,47 @@
 	};
 }());
 
-/*!
- * A polyfill for requestAnimationFrame, based on
- * http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+/*
+ * raf.js
+ * https://github.com/ngryman/raf.js
  *
- * @author: Anselm Hannemann (removed moz prefix as not needed anymore)
- * @author: Erik Möller
- * @author: Paul Irish
+ * original requestAnimationFrame polyfill by Erik Möller
+ * inspired from paul_irish gist and post
  *
+ * Copyright (c) 2013 ngryman
+ * Licensed under the MIT license.
  */
 
-'use strict';
+(function(window) {
+	var lastTime = 0,
+		vendors = ['webkit', 'moz'],
+		requestAnimationFrame = window.requestAnimationFrame,
+		cancelAnimationFrame = window.cancelAnimationFrame,
+		i = vendors.length;
 
-(function () {
-	var lastTime = 0;
-
-	if (!window.requestAnimationFrame) {
-		window.requestAnimationFrame = window['webkitRequestAnimationFrame'];
-		window.cancelAnimationFrame = window['webkitCancelAnimationFrame'] || window['webkitCancelRequestAnimationFrame'];
-
-		window.requestAnimationFrame = function (callback, element) {
-			var currTime = new Date().getTime();
-			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-			var id = window.setTimeout(function () {
-					callback(currTime + timeToCall);
-				}, timeToCall);
-
-			lastTime = currTime + timeToCall;
-
-			return id;
-		};
+	// try to un-prefix existing raf
+	while (--i >= 0 && !requestAnimationFrame) {
+		requestAnimationFrame = window[vendors[i] + 'RequestAnimationFrame'];
+		cancelAnimationFrame = window[vendors[i] + 'CancelAnimationFrame'];
 	}
 
-	if (!window.cancelAnimationFrame) {
-		window.cancelAnimationFrame = function (id) {
-			clearTimeout(id);
+	// polyfill with setTimeout fallback
+	// heavily inspired from @darius gist mod: https://gist.github.com/paulirish/1579671#comment-837945
+	if (!requestAnimationFrame || !cancelAnimationFrame) {
+		requestAnimationFrame = function(callback) {
+			var now = +new Date(), nextTime = Math.max(lastTime + 16, now);
+			return setTimeout(function() {
+				callback(lastTime = nextTime);
+			}, nextTime - now);
 		};
+
+		cancelAnimationFrame = clearTimeout;
 	}
-}());
+
+	// export to window
+	window.requestAnimationFrame = requestAnimationFrame;
+	window.cancelAnimationFrame = cancelAnimationFrame;
+}(window));
 
 /*!
  * Polyfill CSS object-fit

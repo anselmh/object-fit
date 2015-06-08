@@ -12,5 +12,8 @@
     "test",
     "tests"
   ],
-  "dependencies": { }
+  "devDependencies": {
+    "closest": "1.0.2",
+    "raf.js": "0.0.4"
+  }
 }
