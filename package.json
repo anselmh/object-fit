@@ -19,7 +19,8 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "raf.js": "0.0.4"
+    "raf.js": "0.0.4",
+    "element-closest": "1.0.2"
   },
   "devDependencies": {
     "grunt": "0.4.x",

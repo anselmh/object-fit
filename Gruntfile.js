@@ -26,7 +26,7 @@ module.exports = function (grunt) {
 				dest: 'dist/polyfill.object-fit.css'
 			},
 			js: {
-				src: ['src/polyfill.closest.legacy.js', 'src/polyfill.getMatchedCSSRules.js', 'node_modules/raf.js/raf.js', 'src/polyfill.object-fit.core.js'],
+				src: ['node_modules/element-closest/closest.legacy.js', 'src/polyfill.getMatchedCSSRules.js', 'node_modules/raf.js/raf.js', 'src/polyfill.object-fit.core.js'],
 				dest: 'dist/polyfill.object-fit.js'
 			}
 		},
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
 				files: [
 					'Gruntfile.js',
 					'src/polyfill.object-fit.css',
-					'src/polyfill.closest.legacy.js',
+					'node_modules/element-closest/closest.legacy.js',
 					'src/polyfill.getMatchedCSSRules.js',
 					'node_modules/raf.js/raf.js',
 					'src/polyfill.object-fit.core.js'
