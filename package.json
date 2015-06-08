@@ -2,7 +2,7 @@
   "name": "object-fit",
   "title": "object-fit polyfill",
   "description": "Polyfill for the CSS object-fit property to fit images into containers",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "homepage": "https://github.com/anselmh/object-fit",
   "repository": {
     "type": "git",

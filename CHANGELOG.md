@@ -2,6 +2,7 @@
 
 ### HEAD
 
+### 0.4.2 (June, 8th, 2015)
 * Use [external `element.closest()` polyfill](https://github.com/jonathantneal/closest) via npm (#30), small performance win
 * Use [external rAF polyfill](https://github.com/ngryman/raf.js) via npm (#30)
 
