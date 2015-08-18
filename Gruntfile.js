@@ -44,6 +44,18 @@ module.exports = function (grunt) {
 			}
 		},
 
+		cssmin: {
+			options: {
+				advanced: false,
+				mediaMerging: false
+			},
+			css: {
+				files: {
+					'dist/polyfill.object-fit.min.css': 'dist/polyfill.object-fit.css'
+				}
+			}
+		},
+
 		watch: {
 			js: {
 				files: [
@@ -64,8 +76,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	// Default task
-	grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'cssmin']);
 
 };
