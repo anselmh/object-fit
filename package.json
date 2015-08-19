@@ -30,5 +30,6 @@
     "grunt-contrib-uglify": "0.8.0",
     "grunt-contrib-watch": "0.6.1"
   },
-  "keywords": []
+  "keywords": [],
+  "main": "./dist/polyfill.object-fit.js"
 }
