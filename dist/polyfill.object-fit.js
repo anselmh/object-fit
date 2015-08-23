@@ -402,7 +402,7 @@
 			if (!height || width / height > parentWidth / parentHeight) {
 				if (replacedElement.getAttribute('data-x-object-relation') !== 'wider') {
 					replacedElement.setAttribute('data-x-object-relation','wider');
-					replacedElement.className = 'x-object-fit-wider';
+					replacedElement.className += ' x-object-fit-wider';
 
 					if (this._debug && window.console) {
 						console.log('x-object-fit-wider');
@@ -411,7 +411,7 @@
 			} else {
 				if (replacedElement.getAttribute('data-x-object-relation') !== 'taller') {
 					replacedElement.setAttribute('data-x-object-relation','taller');
-					replacedElement.className = 'x-object-fit-taller';
+					replacedElement.className += ' x-object-fit-taller';
 
 					if (this._debug && window.console) {
 						console.log('x-object-fit-taller');
