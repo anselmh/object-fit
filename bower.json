@@ -1,6 +1,6 @@
 {
   "name": "object-fit",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "main": [
     "dist/polyfill.object-fit.js",
     "dist/polyfill.object-fit.css"
