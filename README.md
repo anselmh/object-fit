@@ -2,6 +2,14 @@
 
 This is a headless polyfill for the CSS `object-fit` property which defines the sizing mode for content images (similar to background-size for CSS background sources).
 
+----
+
+## NOTICE: DEPRECATED / Non-Functional
+
+Please note that as Microsoft Edge does not support a good way to [get matching CSS rules](https://github.com/anselmh/object-fit/issues/45), and there are a couple of [other issues](https://github.com/anselmh/object-fit/issues) that aren’t likely to be fixed, this polyfill is of limited benefit for most projects as all other browser vendors support `object-fit` natively now.
+
+----
+
 ## The Webstandard
 
 The specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property scales the image to fit in a certain way into a defined area, e.g:
