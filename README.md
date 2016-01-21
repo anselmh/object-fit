@@ -10,6 +10,12 @@ Please note that as Microsoft Edge does not support a good way to [get matching 
 
 ----
 
+#### A viable alternative for Edge
+
+If you need a basic simple fallback for `object-fit` in Microsoft’s Edge browser (should work in IE11 as well) you can check out [this little script](https://medium.com/@primozcigler/neat-trick-for-css-object-fit-fallback-on-edge-and-other-browsers-afbc53bbb2c3#.40br1isfq) by Primož Cigler here. It seems though that this script provides only the basic feature of object-fit and behaves a bit differently, so always test if it’s working the way you want it to. :)
+
+----
+
 ## The Webstandard
 
 The specification for `object-fit` is to be found at [W3C CSS3 Images](http://www.w3.org/TR/css3-images/#the-object-fit). The property scales the image to fit in a certain way into a defined area, e.g:
