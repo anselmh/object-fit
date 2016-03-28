@@ -10,9 +10,9 @@ Please note that as Microsoft Edge does not support a good way to [get matching 
 
 ----
 
-#### A viable alternative for Edge
+#### Alternatives with Edge support
 
-If you need a basic simple fallback for `object-fit` in Microsoft’s Edge browser (should work in IE11 as well) you can check out [this little script](https://medium.com/@primozcigler/neat-trick-for-css-object-fit-fallback-on-edge-and-other-browsers-afbc53bbb2c3#.40br1isfq) by Primož Cigler here. It seems though that this script provides only the basic feature of object-fit and behaves a bit differently, so always test if it’s working the way you want it to. :)
+[`object-fit-images`](https://github.com/bfred-it/object-fit-images/) and [`fitie`](https://github.com/jonathantneal/fitie) can be used instead of this polyfill.
 
 ----
 
